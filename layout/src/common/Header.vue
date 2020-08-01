@@ -1,30 +1,37 @@
 <template>
-  <div class="header">
-    <p>{{headerTips}} {{input}}</p>
-  </div>
+  <KFlex class="bg-blue content headerbox">
+    <div class="headerbtn" v-show="back">返回按钮</div>
+    <KFlexItem class="main">
+      <KView class="placeholder center c-white">
+        <slot name="main"></slot>
+      </KView>
+    </KFlexItem>
+    <div class="headerbtn">
+      <!-- <span class="iconfont icon-tianjia"></span> -->
+    </div>
+  </KFlex>
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
-
 export default {
-  name: 'Header',
-  computed: {
-    ...mapState(['headerTips', 'input']),
-  },
-  mounted() {
-    this.FAKE_ACTION('june')
-  },
-  methods: {
-    ...mapActions(['FAKE_ACTION']),
+  props: {
+    back: {
+      type: Boolean,
+      default: false,
+    },
   },
 }
 </script>
 
 <style lang="less">
-.header {
-  margin-bottom: 10px;
+.headerbox {
   width: 100%;
-  text-align: center;
+  top: 0;
+  .box {
+    .headerbtn {
+      width: 10rem !important;
+      height: 10rem !important;
+    }
+  }
 }
 </style>

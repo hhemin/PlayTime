@@ -1,0 +1,45 @@
+/* --root {
+ --blue: #096dd9;
+--gray: #bfbfbf;
+--black: #1f1f1f;
+--white: #ffffff;
+--bodyColor: #fbfbfb;
+} */
+.bg-verdant {
+  background-color: #00474f;
+}
+.c-verdant {
+  color: #00474f;
+}
+
+.bg-blue {
+  background-color: #096dd9;
+}
+
+.c-blue {
+  color:#096dd9;
+}
+
+.bg-gray {
+  background-color: #bfbfbf;
+}
+
+.c-gray {
+  color: #bfbfbf;
+}
+
+.bg-black {
+  background-color: #1f1f1f;
+}
+
+.c-black {
+  color: #1f1f1f;
+}
+
+.bg-white {
+  background-color: #ffffff
+}
+
+.c-white {
+  color:#ffffff;
+}

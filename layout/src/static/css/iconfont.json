@@ -1,0 +1,100 @@
+{
+  "id": "1979864",
+  "name": "TimePlay",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "13646788",
+      "name": "返回",
+      "font_class": "back",
+      "unicode": "e603",
+      "unicode_decimal": 58883
+    },
+    {
+      "icon_id": "4908295",
+      "name": "暂停",
+      "font_class": "pause",
+      "unicode": "e663",
+      "unicode_decimal": 58979
+    },
+    {
+      "icon_id": "6871072",
+      "name": "开始巡检",
+      "font_class": "ready",
+      "unicode": "e64d",
+      "unicode_decimal": 58957
+    },
+    {
+      "icon_id": "10299085",
+      "name": "已结束",
+      "font_class": "end",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    },
+    {
+      "icon_id": "6500757",
+      "name": "首页",
+      "font_class": "home-active",
+      "unicode": "e618",
+      "unicode_decimal": 58904
+    },
+    {
+      "icon_id": "7338642",
+      "name": "个人",
+      "font_class": "me-active",
+      "unicode": "e6ae",
+      "unicode_decimal": 59054
+    },
+    {
+      "icon_id": "7761519",
+      "name": "删 除 ",
+      "font_class": "shanchu",
+      "unicode": "e612",
+      "unicode_decimal": 58898
+    },
+    {
+      "icon_id": "10314452",
+      "name": "编辑",
+      "font_class": "bianji",
+      "unicode": "e706",
+      "unicode_decimal": 59142
+    },
+    {
+      "icon_id": "13409772",
+      "name": "添加",
+      "font_class": "tianjia",
+      "unicode": "e658",
+      "unicode_decimal": 58968
+    },
+    {
+      "icon_id": "15766526",
+      "name": "时间",
+      "font_class": "time-active",
+      "unicode": "e662",
+      "unicode_decimal": 58978
+    },
+    {
+      "icon_id": "16274638",
+      "name": "首页",
+      "font_class": "home-copy",
+      "unicode": "e707",
+      "unicode_decimal": 59143
+    },
+    {
+      "icon_id": "16274639",
+      "name": "个人",
+      "font_class": "me-copy",
+      "unicode": "e708",
+      "unicode_decimal": 59144
+    },
+    {
+      "icon_id": "16274640",
+      "name": "时间",
+      "font_class": "time-copy",
+      "unicode": "e709",
+      "unicode_decimal": 59145
+    }
+  ]
+}

@@ -1,6 +1,8 @@
 <template>
   <div class="cnt">
-    <Header></Header>
+    <Header class="header">
+       <div slot="main">TimePlay</div>
+    </Header>
     <a href="/home">回到首页</a>
     <button @click="onClickJump">回到首页</button>
     <Footer></Footer>
@@ -34,10 +36,10 @@ export default Vue.extend({
 </script>
 
 <style lang="less">
-.cnt {
-  margin-top: 20px;
-}
-
+.header {
+    width: 100%;
+    top: 0;
+  }
 a, button {
   display: block;
   width: 100%;

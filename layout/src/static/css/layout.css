@@ -1,0 +1,45 @@
+.box {
+  box-sizing: border-box;
+}
+.content {
+  padding: 10px;
+  box-sizing: border-box;
+}
+.center {
+  text-align: center;
+}
+
+.fixed {
+  position: fixed;
+}
+
+.df {
+  display: flex;
+}
+.fiex {
+  flex: 1;
+}
+.box-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mt-header {
+  margin-top: 5rem;
+}
+
+.p10 {
+  padding: 1rem;
+}
+.m10 {
+  margin: 1rem;
+}
+.mb10 {
+  margin-bottom: 1rem;
+}
+
+.boder-R {
+  border-radius: 1rem;
+  overflow: hidden;
+}

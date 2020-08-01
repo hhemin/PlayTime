@@ -1,0 +1,18 @@
+@import './color.css';
+@import './layout.css';
+@import './iconfont.css';
+
+html,body {
+  background-color: #fbfbfb;
+}
+main {
+  min-height: 100vh;
+  background-color: #fbfbfb; 
+}
+.icon {
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
+}

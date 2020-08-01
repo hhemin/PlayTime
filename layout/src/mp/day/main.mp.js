@@ -3,7 +3,8 @@ import Router from 'vue-router'
 import { sync } from 'vuex-router-sync'
 import App from '../../App.vue'
 import store from '../../store'
-import Home from '../../home/Index.vue'
+import Day from '../../day/Index.vue'
+import Footer from '../../common/Footer.vue'
 
 Vue.use(Router)
 
@@ -11,9 +12,14 @@ const router = new Router(
   {
     mode: 'history',
     routes: [{
-      path: '/',
-      name: 'Home',
-      component: Home,
+      path:'/',
+      name:Footer,
+      component: Footer,
+      children:{
+        path: '/Day',
+        name: 'Day',
+        component: Day,
+      }
     }],
   }
 )

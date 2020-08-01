@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import Vue from '../common'
 import Router from 'vue-router'
 import { sync } from 'vuex-router-sync'
 import App from '../../App.vue'

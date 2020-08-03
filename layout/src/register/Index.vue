@@ -3,21 +3,27 @@
     <div class="formmian" :model="form">
       <div class="df inputitem">账号<input type="text" v-model="form.name"/></div>
       <div class="df inputitem">密码<input type="password" v-model="form.password"/></div>
-      <a href="/register" class="c-blue" style="font-size:13px;">注册账号</a>
-      <KButton type="primary" style="width:100%;max-width:360px;margin-top:20px">登录</KButton>
+      <KButton type="primary"
+      style="width:100%;max-width:360px;margin-top:20px"
+      @click="onRegister">注册</KButton>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'login',
+  name: 'register',
   data() {
     return {
       form: {
         name: '',
         password: '',
       }
+    }
+  },
+  methods: {
+    onRegister() {
+      console.log('123')
     }
   }
 }

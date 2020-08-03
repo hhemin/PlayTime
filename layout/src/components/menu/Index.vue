@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="menubox">
     <router-view/>
     <Fooder></Fooder>
   </div>

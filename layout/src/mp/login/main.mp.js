@@ -3,8 +3,7 @@ import Router from 'vue-router'
 import { sync } from 'vuex-router-sync'
 import App from '../../App.vue'
 import store from '../../store'
-import Home from '../../home/Index.vue'
-import Menu from '../../components/menu/Index.vue'
+import Login from '../../login/Index.vue'
 
 Vue.use(Router)
 
@@ -12,16 +11,9 @@ const router = new Router(
   {
     mode: 'history',
     routes: [{
-      path: '/',
-      name: 'Menu',
-      component: Menu,
-      children:[
-        {
-          path: '/',
-          name: 'Home',
-          component: Home,
-        }
-      ]
+      path: '/login',
+      name: 'Login',
+      component: Login,
     }],
   }
 )

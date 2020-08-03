@@ -49,8 +49,12 @@ export default {
   },
   methods: {
     goMenu(value) {
+      if (this.active === value.router) return false// 防止重复点击
       this.active = value.router
-      window.location.href = value.router
+      // window.location.href = value.router
+      this.$router.push({ path: value.router })
+      //  window.open(value.router)
+      return true
     }
   }
 }

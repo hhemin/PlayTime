@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <header class="fixed header">
+    <header class="fixed header" @click="goAdd">
       <Header>
         <div slot="main">TimePlay
           <span class="iconfont icon-tianjia"></span>
@@ -16,14 +16,16 @@
       >
         <div class="fiex">
           <h3>{{item.name}}</h3>
-          <span>{{item.time}}</span>
+          <span>{{item.time}} min</span>
+          <!-- <p>{{}}</p> -->
         </div>
         <div class="btn box-center box"
         :class="[item.status]"
-        @click="onGo">
+        @click="onGo(item)">
           <span class="iconfont" :class="item.icon"></span>
         </div>
       </Boxshow>
+      <!-- <router-link to="/login">登录</router-link> -->
     </main>
     <!-- <div>
       <a href="/test/list/321">当前页跳转</a>
@@ -31,15 +33,20 @@
       <button @click="onClickJump">当前页跳转</button>
       <button @click="onClickOpen">新开页面跳转</button>
     </div> -->
-    <Footer></Footer>
+    <!-- <Footer></Footer> -->
+    <Screen :visible="visible" >
+      <Active :item="activedata" @close="close"></Active>
+    </Screen>
   </div>
 </template>
 
 <script>
 import Vue from 'vue'
 import Header from '../common/Header.vue'
-import Footer from '../common/Footer.vue'
+// import Footer from '../common/Footer.vue'
 import Boxshow from '../common/Boxshow.vue'
+// import Screen from '../common/Screen.vue'
+import Active from '../components/active.vue'
 import Web from 'reduce-loader!../common/Web.vue'
 import 'reduce-loader!./web'
 
@@ -50,7 +57,7 @@ export default Vue.extend({
       listdata: [
         {
           name: 'javaScript',
-          time: 30,
+          time: 5,
           status: 'ready', // 状态（3个）未开启
           icon: 'icon-ready'
         },
@@ -62,18 +69,22 @@ export default Vue.extend({
         },
         {
           name: 'java',
-          time: 30,
+          time: 10,
           status: 'end', // 状态（3个）结束
           icon: 'icon-end'
         }
-      ]
+      ],
+      activedata: {},
+      visible: false, // 显示与隐藏对话框
     }
   },
   components: {
     Header,
-    Footer,
+    // Footer,
     Web,
     Boxshow,
+    // Screen,
+    Active,
   },
   created() {
     window.addEventListener('wxload', query => console.log('page1 wxload', query))
@@ -98,9 +109,22 @@ export default Vue.extend({
       window.open('/test/detail/123')
     },
 
-    onGo() {
-      // window.location.href = '/test/list/123'
+    onGo(item) {
+      console.log(this)
+      this.show()
+      this.activedata = item
+    },
+    show() {
+      this.visible = true
+    },
+    close(value) {
+      this.visible = value
+    },
+
+    goAdd() {
+      window.location.href = '/add'
     }
+
   },
 })
 </script>

@@ -4,15 +4,20 @@
 
 html,body {
   background-color: #fbfbfb;
+  min-height: 100%;
 }
-main {
-  min-height: 100vh;
+/* main {
   background-color: #fbfbfb; 
-}
+} */
 .icon {
   width: 1em;
   height: 1em;
   vertical-align: -0.15em;
   fill: currentColor;
   overflow: hidden;
+}
+
+/* kbone表单 */
+.weui-cell__bd {
+  display: flex;
 }

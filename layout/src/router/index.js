@@ -9,7 +9,7 @@ const Add = () => import(/* webpackChunkName: "Add" */'@/add/Index.vue')
 const Day = () => import(/* webpackChunkName: "Day" */'@/day/Index.vue')
 const Login = () => import(/* webpackChunkName: "Login" */'@/login/Index.vue')
 const Me = () => import(/* webpackChunkName: "Me" */'@/me/Index.vue')
-
+const Register = () => import(/* webpackChunkName: "Register" */'@/register/Index.vue')
 Vue.use(Router)
 
 export default new Router({
@@ -60,12 +60,16 @@ export default new Router({
       component: Detail,
     }, {
       path: '/login',
-      name: 'login',
+      name: 'Login',
       component: Login,
     }, {
       path: '/add',
       name: 'Add',
       component: Add,
+    }, {
+      path: '/register',
+      name: 'Register',
+      component: Register
     }
   ],
 })

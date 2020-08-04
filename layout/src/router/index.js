@@ -12,7 +12,7 @@ const Me = () => import(/* webpackChunkName: "Me" */'@/me/Index.vue')
 const Register = () => import(/* webpackChunkName: "Register" */'@/register/Index.vue')
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   mode: 'history',
   routes: [
     {
@@ -24,16 +24,28 @@ export default new Router({
           path: '/',
           name: 'Home',
           component: Home,
+          meta: {
+            Login: true,
+            Active: true,
+          },
         },
         {
           path: '/me',
           name: 'Me',
           component: Me,
+          meta: {
+            Login: true,
+            Active: true,
+          },
         },
         {
           path: '/day',
           name: 'Day',
           component: Day,
+          meta: {
+            Login: true,
+            Active: true,
+          },
         }
       ]
     },
@@ -54,22 +66,48 @@ export default new Router({
       path: '/test/list/:id',
       name: 'List',
       component: List,
+      meta: {
+        Login: true,
+        Active: true,
+      },
     }, {
       path: '/test/detail/:id',
       name: 'Detail',
       component: Detail,
+      meta: {
+        Login: true,
+        Active: true,
+      },
     }, {
       path: '/login',
       name: 'Login',
       component: Login,
+      meta: {
+        Active: true,
+      }
     }, {
       path: '/add',
       name: 'Add',
       component: Add,
+      meta: {
+        Login: true,
+        Active: true,
+      },
     }, {
       path: '/register',
       name: 'Register',
-      component: Register
+      component: Register,
+      meta: {
+        Active: true,
+      }
     }
   ],
 })
+
+
+router.beforeEach((to, from, next) => {
+  console.log(to)
+  next()
+})
+
+export default router

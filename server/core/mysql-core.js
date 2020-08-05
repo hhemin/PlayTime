@@ -22,7 +22,23 @@ class Select {
     return `${selet+wherevalue};`
   }
 }
+// @name: 添加
+class Insert {
+  static fn(tablename,value,tableitem = '') {
+    console.log(`INSERT INTO ${tablename} ${tableitem} VALUES ${value};` )
+    return `INSERT INTO ${tablename} ${tableitem} VALUES ${value};` 
+  }
+}
+
+// @name: 更新
+class Updata {
+  static fn(tablename,value,wherevalue) {
+    return `UPDATE ${tablename} SET ${value} WHERE ${wherevalue};`
+  }
+}
 
 module.exports = {
-  Select
+  Select,
+  Insert,
+  Updata
 }

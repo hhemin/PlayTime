@@ -1,9 +1,10 @@
 const Koa = require('koa');
 const parser = require('koa-bodyparser');
-const InitManager = require('./core/init')
+const InitManager = require('./core/init');
+const catchError = require('./middlewares/exception'); // 捕获错误的中间件
 
 const app = new Koa();
-require('./core/db')
+app.use(catchError);
 app.use(parser());
 InitManager.initCore(app);
 

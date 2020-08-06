@@ -8,8 +8,17 @@ class HttpException extends Error {
   }
 }
 
+class ParameterException extends HttpException {
+  constructor(msg = '参数错误', errorCode = 10001) {
+    super()
+    this.msg = msg
+    this.errorCode = errorCode
+    this.code = 400
+  }
+}
+
 class NotFound extends HttpException {
-  constructor(msg = '资源未找到', errorCode = 10000) {
+  constructor(msg = '资源未找到', errorCode = 10002) {
     super()
     this.msg = msg
     this.errorCode = errorCode
@@ -17,7 +26,18 @@ class NotFound extends HttpException {
   }
 }
 
+class RepeatUser extends HttpException {
+  constructor(msg = '用户名存在', errorCode = 10003) {
+    super()
+    this.msg = msg
+    this.errorCode = errorCode
+    this.code = 200
+  }
+}
+
 module.exports = {
   HttpException,
-  NotFound
+  ParameterException,
+  NotFound,
+  RepeatUser
 }

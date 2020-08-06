@@ -3,29 +3,28 @@ class Select {
   /**
    * @name 查询 
    * @tablename 表格名字 
-   * @Arrayvalue 参数字段
+   * @tableitem 参数字段
    * */ 
-  static fn(tablename,Arrayvalue) {
+  static fn({tablename,tableitem} ={}) {
     let select = 'SELECT '
-    if(Array.isArray(Arrayvalue)) {
-      for(let i = 0;i<Arrayvalue.length;i++) {
-        let last = i === Arrayvalue.length -1 ? ' ':','
-        select += Arrayvalue[i]+last
+    if(Array.isArray(tableitem)) {
+      for(let i = 0;i<tableitem.length;i++) {
+        let last = i === tableitem.length -1 ? ' ':','
+        select += tableitem[i]+last
       }
       console.log(`${select} From ${tablename}`)
       return `${select} From ${tablename};`
     }
     return `SELECT * FROM ${tablename};`
   }
-  static wherefn(tablename,Arrayvalue,wherevalue) {
-    let selet =  this.fn(tablename,Arrayvalue).split(';')[0]
-    return `${selet+wherevalue};`
+  static wherefn({tablename,tableitem = '*',wherevalue} = {}) {
+    let selet =  this.fn({tablename,tableitem}).split(';')[0]
+    return `${selet} WHERE ${wherevalue};`
   }
 }
 // @name: 添加
 class Insert {
   static fn(tablename,value,tableitem = '') {
-    console.log(`INSERT INTO ${tablename} ${tableitem} VALUES ${value};` )
     return `INSERT INTO ${tablename} ${tableitem} VALUES ${value};` 
   }
 }

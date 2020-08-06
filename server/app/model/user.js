@@ -2,18 +2,16 @@ const {Select,Insert} = require('../../core/mysql-core')
 const MysqlDom = require('../../core/mysql-dom')
 
 class User {
-  static async query() {
-    // 例子
-    try {
-      let data = await MysqlDom.query(Select.fn('user',['uid','username']))
-      return JSON.parse(JSON.stringify(data))
-    }catch(err) {
-      return JSON.parse(JSON.stringify(err))
-    }
+  // 查询
+  static async query(value) {
+    let data = await MysqlDom.query(Select.wherefn({
+      tablename:'user',
+      wherevalue:`username = '${value}'`
+    }))
+    return JSON.parse(JSON.stringify(data))
   }
-
+  // 添加
   static async add(value) {
-    try {
       // let sql = ''
       // for(let i in value) {
       //  i ===  Object.keys(value)[value.length -1]? sql+=`${i} = ${value[i]} `:sql+=`${i} = ${value[i]},`
@@ -33,9 +31,6 @@ class User {
       }
       let data = await MysqlDom.query(Insert.fn('user',`(${v}, NOW())` ,`(${item},createtime)`))
       return JSON.parse(JSON.stringify(data))
-    }catch(err) {
-      return JSON.parse(JSON.stringify(err))
-    }
   }
 }
 

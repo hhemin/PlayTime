@@ -3,16 +3,17 @@ const {HttpException} = require('../core/http-exception');
 
 const catchError = async (ctx,next) => {
   try {
-    console.log('中间件')
+    // 正确继续运行
     await next()
-  } catch (err) {
+  } catch (error) {
+    // 错误就进行错误处理
     // 开发环境 不是HttpException
     const isHttpException = error instanceof HttpException;
     const isDev = global.config.environment === 'dev'
     if(isDev && !isHttpException) {
       throw error;
     }
-     if(err instanceof HttpException) {
+     if(error instanceof HttpException) {
       ctx.body = {
         msg: error.msg,
         error_code: error.errorCode,

@@ -19,14 +19,14 @@ class RegisterValidator extends LinValidator {
       new Rule('isLength', '昵称不符合长度规范', { min: 4, max: 32 })
     ]
   }
-  // 自定义规则
-  validatePassword(values) {
-    const password1 = values.body.password1;
-    const password2 = values.body.password2;
-    if (password1 !== password2) {
-      throw new Error('两次输入的密码必须相同')
-    }
-  }
+  // // 自定义规则
+  // validatePassword(values) {
+  //   const password1 = values.body.password1;
+  //   const password2 = values.body.password2;
+  //   if (password1 !== password2) {
+  //     throw new Error('两次输入的密码必须相同')
+  //   }
+  // }
   // 检查用户名是否重复
   async validateUser(values) {
     // values 用户名参数

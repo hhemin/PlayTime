@@ -16,7 +16,7 @@ yarn 或 npm i
 * Web 端：直接浏览器访问 localhost:8080/ 即可看到效果。
 
 ```
-npm run web
+npm run web  or yarn run web
 ```
 
 * 小程序端：使用开发者工具打开 dist/mp 目录即可。

@@ -1,3 +1,5 @@
+const bcrypt = require('bcrypt')
+
 const {Select,Insert} = require('../../core/mysql-core')
 const MysqlDom = require('../../core/mysql-dom')
 
@@ -32,6 +34,10 @@ class User {
       let data = await MysqlDom.query(Insert.fn('user',`(${v}, NOW())` ,`(${item},createtime)`))
       return JSON.parse(JSON.stringify(data))
   }
+  // 登录
+  // static async login(value) {
+    
+  // }
 }
 
 module.exports = {

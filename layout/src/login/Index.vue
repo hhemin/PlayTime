@@ -1,23 +1,39 @@
 <template>
   <div class="loginbox">
     <div class="formmian" :model="form">
-      <div class="df inputitem">账号<input type="text" v-model="form.name"/></div>
+      <div class="df inputitem">账号<input type="text" v-model="form.username"/></div>
       <div class="df inputitem">密码<input type="password" v-model="form.password"/></div>
       <a href="/register" class="c-blue" style="font-size:13px;">注册账号</a>
-      <KButton type="primary" style="width:100%;max-width:360px;margin-top:20px">登录</KButton>
+      <KButton type="primary"
+      style="width:100%;max-width:360px;margin-top:20px"
+      @click="onlogin">登录</KButton>
     </div>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   name: 'login',
   data() {
     return {
       form: {
-        name: '',
+        username: '',
         password: '',
       }
+    }
+  },
+  methods: {
+    onlogin() {
+      axios.post('http://localhost:3000/api/users/login', {
+        username: this.form.username,
+        password: this.form.password
+      }).then((response) => {
+        console.log(response)
+      }).catch((error) => {
+        console.log(error)
+      })
     }
   }
 }

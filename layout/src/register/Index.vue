@@ -1,7 +1,7 @@
 <template>
   <div class="loginbox">
     <div class="formmian" :model="form">
-      <div class="df inputitem">账号<input type="text" v-model="form.name"/></div>
+      <div class="df inputitem">账号<input type="text" v-model="form.username"/></div>
       <div class="df inputitem">密码<input type="password" v-model="form.password"/></div>
       <KButton type="primary"
       style="width:100%;max-width:360px;margin-top:20px"
@@ -11,19 +11,29 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   name: 'register',
   data() {
     return {
       form: {
-        name: '',
+        username: '',
         password: '',
       }
     }
   },
   methods: {
     onRegister() {
-      console.log('123')
+      axios.post('http://localhost:3000/api/users/register',{
+        username:this.form.username,
+        password:this.form.username
+      }).then((res) => {
+        console.log(res)
+      }).catch((err) => {
+        console.log(err)
+      })
+      // console.log('123')
     }
   }
 }

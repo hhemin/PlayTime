@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const Router = require('koa-router')
 const {User} = require('../model/user')
-const {HttpException} = require('../../core/http-exception')
+// const {HttpException} = require('../../core/http-exception')
 const {successResponse} = require('../../lib/tool')
 const {RegisterValidator} = require('../../validator/user')
 
@@ -33,19 +33,18 @@ router.post('/register',async (ctx,next) => {
     username,
     password:hash
   }
-  await new RegisterValidator().validateUser(username)
+  await new RegisterValidator().validateUser(username);// 检测是否存在
   await new RegisterValidator().validate(ctx);
   await User.add(value)
   successResponse({ctx,msg:"用户注册成功"})
 })
 
+// 用户登录
 router.post('/login',async (ctx,next) => {
   let {username,password} = ctx.request.body;
-  ctx.body = {
-    username,
-    password
-  }
-  console.log(username,password)
+  await new RegisterValidator().isHasUser(username);// 检验是否存在用户
+  let token =  await User.getToken(username,password);// 密码检测+token返回
+  successResponse({ctx,data:token})
 })
 
 module.exports = router

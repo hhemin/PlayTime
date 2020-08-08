@@ -1,6 +1,6 @@
 const { LinValidator, Rule } = require('../core/lin-validator-v2.js')
 const { User } = require('../app/model/user')
-const {RepeatUser} = require('../core/http-exception')
+const {NotUser,RepeatUser} = require('../core/http-exception')
 class RegisterValidator extends LinValidator {
   constructor() {
     super();
@@ -33,6 +33,14 @@ class RegisterValidator extends LinValidator {
     const user = await User.query(values);
     if (user.length>0) {
       throw new RepeatUser()
+    }
+  }
+
+  async isHasUser(values) {
+    // values 用户名参数
+    const user = await User.query(values);
+    if(user.length == 0) {
+      throw new NotUser()
     }
   }
 }

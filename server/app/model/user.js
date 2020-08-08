@@ -1,6 +1,9 @@
 const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
 
 const {Select,Insert} = require('../../core/mysql-core')
+const {NoPassword} = require('../../core/http-exception')
+const {createToken} = require('../../core/utils')
 const MysqlDom = require('../../core/mysql-dom')
 
 class User {
@@ -34,10 +37,17 @@ class User {
       let data = await MysqlDom.query(Insert.fn('user',`(${v}, NOW())` ,`(${item},createtime)`))
       return JSON.parse(JSON.stringify(data))
   }
-  // 登录
-  // static async login(value) {
-    
-  // }
+  // toke获取
+  static async getToken(username,password) {
+    let v = await this.query(username)
+    const pwd = bcrypt.compareSync(password,v[0].password);// 检验密码是否正确
+    if(!pwd) {
+      throw new NoPassword();
+    }
+    //  console.log()
+    return createToken(v[0].uid,v[0].scope);// 生成toekn
+    // jwt.sign({})
+  }
 }
 
 module.exports = {

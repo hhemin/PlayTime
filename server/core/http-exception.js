@@ -35,9 +35,29 @@ class RepeatUser extends HttpException {
   }
 }
 
+class NotUser extends HttpException {
+  constructor(msg = '用户名不存在哦', errorCode = 10004) {
+    super()
+    this.msg = msg
+    this.errorCode = errorCode
+    this.code = 200
+  }
+}
+
+class NoPassword extends HttpException {
+  constructor(msg = '密码不正确哦', errorCode = 10005) {
+    super()
+    this.msg = msg
+    this.errorCode = errorCode
+    this.code = 400
+  }
+}
+
 module.exports = {
   HttpException,
   ParameterException,
   NotFound,
-  RepeatUser
+  RepeatUser,
+  NotUser,
+  NoPassword
 }

@@ -13,7 +13,7 @@ class Auth {
       const userToken = basicAuth(ctx.req) // 获取客户端传过来的token
       let errMsg = 'token不合法'
       if(!userToken || !userToken.name) {
-        throw new NoToken()
+        throw new NoToken({msg:'未登录'})
       }
       let decode
       // 对token 合法进行校验证
@@ -23,7 +23,7 @@ class Auth {
       } catch (error) {
         // 2种错误可能 1、token不合法 2、token过期
         if (error.name === 'TokenExpiredError') {
-          errMsg = 'token已过期'
+          errMsg = '请重新登录，之前登录已过期' //token已过期
         }
         console.log(error)
         throw new NoToken(errMsg)

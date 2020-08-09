@@ -49,6 +49,7 @@ import Boxshow from '../common/Boxshow.vue'
 import Active from '../components/active.vue'
 import Web from 'reduce-loader!../common/Web.vue'
 import 'reduce-loader!./web'
+import axios from 'axios'
 
 export default Vue.extend({
   name: 'Home',
@@ -98,6 +99,7 @@ export default Vue.extend({
     } else {
       console.log('I am in Web')
     }
+    this.getData()
   },
   methods: {
     onClickJump() {
@@ -123,6 +125,19 @@ export default Vue.extend({
 
     goAdd() {
       window.location.href = '/add'
+    },
+
+    getData() {
+      axios.get('http://localhost:3000/api/dayinfo',{
+        auth:{
+          username:localStorage.getItem('token')
+        }
+      }).then((res)=> {
+        console.log(res)
+      }).catch((err) => {
+       console.log(err.response)
+      })
+
     }
 
   },

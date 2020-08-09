@@ -43,9 +43,10 @@ class User {
     const pwd = bcrypt.compareSync(password,v[0].password);// 检验密码是否正确
     if(!pwd) {
       throw new NoPassword();
+    }else{
+      return createToken(v[0].uid,v[0].scope);// 生成toekn
     }
     //  console.log()
-    return createToken(v[0].uid,v[0].scope);// 生成toekn
     // jwt.sign({})
   }
 }

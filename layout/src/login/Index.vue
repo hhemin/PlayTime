@@ -31,8 +31,11 @@ export default {
         password: this.form.password
       }).then((response) => {
         console.log(response)
+        let {data:{data}} = response
+        localStorage.setItem('token',data);
+        console.log(data)
       }).catch((error) => {
-        console.log(error)
+        console.log(error.response)
       })
     }
   }

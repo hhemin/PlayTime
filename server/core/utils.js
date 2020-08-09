@@ -37,6 +37,7 @@ const findMembers = function (instance, {
   return _find(instance)
 }
 
+// 颁发token令牌：uid 用户id，scope 用户权限
 const createToken = (uid,scope) => {
   const secretKey = global.config.security.secretKey; // 令牌的key
   const expiresIn = global.config.security.expiresIn; // 令牌的有效时间

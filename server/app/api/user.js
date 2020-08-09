@@ -10,18 +10,12 @@ const router = new Router({
 })
 
 router.get('/',async(ctx) => {
-  // await User.query('xxx')
-  // successResponse({ctx})
-  let d = ctx.request.query//JSON.stringify(ctx.query)
-  console.log(d)
-  const v = await new RegisterValidator().validateUser(ctx);
-  // if(true) {
-  //   console.log('123')
-  //   let error =  new HttpException()
-  //   ctx.body = {
-  //     error
-  //   }
-  // }
+  ctx.body = {
+    n:'users'
+  }
+  // let d = ctx.request.query//JSON.stringify(ctx.query)
+  // console.log(d)
+  // const v = await new RegisterValidator().validateUser(ctx);
 })
 
 // 用户注册

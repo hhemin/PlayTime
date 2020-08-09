@@ -53,11 +53,21 @@ class NoPassword extends HttpException {
   }
 }
 
+class NoToken extends HttpException {
+  constructor(msg = '禁止访问', errorCode = 10006) {
+    super()
+    this.msg = msg
+    this.errorCode = errorCode
+    this.code = 403
+  }
+}
+
 module.exports = {
   HttpException,
   ParameterException,
   NotFound,
   RepeatUser,
   NotUser,
-  NoPassword
+  NoPassword,
+  NoToken
 }

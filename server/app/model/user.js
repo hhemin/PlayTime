@@ -1,5 +1,4 @@
 const bcrypt = require('bcrypt')
-const jwt = require('jsonwebtoken')
 
 const {Select,Insert} = require('../../core/mysql-core')
 const {NoPassword} = require('../../core/http-exception')

@@ -18,8 +18,8 @@ class Select {
     return `SELECT * FROM ${tablename};`
   }
   static wherefn({tablename,tableitem = '*',wherevalue} = {}) {
-    let selet =  this.fn({tablename,tableitem}).split(';')[0]
-    return `${selet} WHERE ${wherevalue};`
+    let sql =  this.fn({tablename,tableitem}).split(';')[0]
+    return `${sql} WHERE ${wherevalue};`
   }
 }
 // @name: 添加

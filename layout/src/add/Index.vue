@@ -36,6 +36,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 import Header from '@/common/Header.vue'
 
 const dayvalue = ['永不', '每天', '每周', '每月']
@@ -86,6 +87,30 @@ export default {
         this.text = '时间不能为空哦'
         return false
       }
+      const repeatValue = {
+        '永不': () => 1,
+        '每天': () => 2,
+        '每周': () => 3,
+        '每月': () => 4,
+      }
+      let data  = {
+          dayInfo_name: this.name,
+          dayInfo_repeat: repeatValue[this.timeactive](),
+          dayInfo_time: this.min+this.hour*60,
+        }
+        console.log(data)
+      axios({
+        method: 'post',
+        url: 'http://localhost:3000/api/dayinfo/add',
+        data: data,
+        auth: {
+          username: localStorage.getItem('token')
+        }
+      }).then((res) => {
+        console.log(res)
+      }).catch((err) => {
+       console.log(err.response)
+      })
       return true
     }
   }

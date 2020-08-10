@@ -7,12 +7,17 @@
       <KButton type="primary"
       style="width:100%;max-width:360px;margin-top:20px"
       @click="onlogin">登录</KButton>
+      <KToptips v-model="infoShow" :type="Tipsinfo" :duration="1000">
+        {{tipstext}}
+      </KToptips>
     </div>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
+import {GetToken} from '../../api/users'
+import {Tip} from '../../config/util'
 
 export default {
   name: 'login',
@@ -21,22 +26,28 @@ export default {
       form: {
         username: '',
         password: '',
-      }
+      },
+      infoShow: false,
+      Tipsinfo: 'info',
+      tipstext: ''
     }
   },
   methods: {
-    onlogin() {
-      axios.post('http://localhost:3000/api/users/login', {
-        username: this.form.username,
-        password: this.form.password
-      }).then((response) => {
-        console.log(response)
-        let {data:{data}} = response
-        localStorage.setItem('token',data);
+    async onlogin() {
+      try {
+        let {data} = await GetToken({
+          username: this.form.username,
+          password: this.form.password
+        })
         console.log(data)
-      }).catch((error) => {
-        console.log(error.response)
-      })
+        const {type,text,show} = new Tip('出错了','error').show()
+        console.log(type,text,show)
+        localStorage.setItem('token',data)
+      }catch(err) {
+        const t =  new Tip('出错了','error').show()
+        console.log(t)
+        console.log(err.response)
+      }
     }
   }
 }

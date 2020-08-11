@@ -40,7 +40,7 @@ class NotUser extends HttpException {
     super()
     this.msg = msg
     this.errorCode = errorCode
-    this.code = 200
+    this.code = 404
   }
 }
 

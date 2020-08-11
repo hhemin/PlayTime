@@ -499,6 +499,11 @@ koa-convert@^1.2.0:
     co "^4.6.0"
     koa-compose "^3.0.0"
 
+koa-cors@^0.0.16:
+  version "0.0.16"
+  resolved "https://registry.npm.taobao.org/koa-cors/download/koa-cors-0.0.16.tgz#98107993a7909e34c042986c5ec6156d77f3432e"
+  integrity sha1-mBB5k6eQnjTAQphsXsYVbXfzQy4=
+
 koa-router@^9.1.0:
   version "9.1.0"
   resolved "https://registry.npm.taobao.org/koa-router/download/koa-router-9.1.0.tgz?cache=0&sync_timestamp=1593711885452&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fkoa-router%2Fdownload%2Fkoa-router-9.1.0.tgz#47d1ce2109fd62b1d76eb42df90b635ff93b6831"

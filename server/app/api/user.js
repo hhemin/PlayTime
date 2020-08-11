@@ -38,7 +38,7 @@ router.post('/login',async (ctx,next) => {
   let {username,password} = ctx.request.body;
   await new RegisterValidator().isHasUser(username);// 检验是否存在用户
   let token =  await User.getToken(username,password);// 密码检测+token返回
-  successResponse({ctx,data:token})
+  successResponse({ctx,data:token,msg:"登录成功"})
 })
 
 module.exports = router

@@ -2,6 +2,7 @@
 const {HttpException} = require('../core/http-exception');
 
 const catchError = async (ctx,next) => {
+  ctx.set('Access-Control-Allow-Origin', '*');
   try {
     // 正确继续运行
     await next()

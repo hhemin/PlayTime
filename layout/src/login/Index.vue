@@ -7,8 +7,8 @@
       <KButton type="primary"
       style="width:100%;max-width:360px;margin-top:20px"
       @click="onlogin">登录</KButton>
-      <KToptips v-model="infoShow" :type="Tipsinfo" :duration="1000">
-        {{tipstext}}
+      <KToptips v-model="tip.show" :type="tip.type" :duration="1000">
+        {{tip.text}}
       </KToptips>
     </div>
   </div>
@@ -27,9 +27,11 @@ export default {
         username: '',
         password: '',
       },
-      infoShow: false,
-      Tipsinfo: 'info',
-      tipstext: ''
+      tip: {
+        show: false,
+        type: 'info',
+        text: ''
+      }
     }
   },
   methods: {
@@ -39,14 +41,16 @@ export default {
           username: this.form.username,
           password: this.form.password
         })
-        console.log(data)
-        const {type,text,show} = new Tip('出错了','error').show()
-        console.log(type,text,show)
-        localStorage.setItem('token',data)
+        this.tip  = {
+          ...new Tip(data.msg||'','success').show()
+        }
+        localStorage.setItem('token',data.data)
+        this.$router.push('/')
       }catch(err) {
-        const t =  new Tip('出错了','error').show()
-        console.log(t)
-        console.log(err.response)
+        // console.log(err)
+        this.tip  = {
+          ... new Tip(err.response.data.msg||'错误','error').show()
+        }
       }
     }
   }

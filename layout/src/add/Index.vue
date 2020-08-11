@@ -29,15 +29,17 @@
       v-model="isShowTitle"
       @click='actionChoose'
     />
-    <KToptips v-model="show" :type="type" :duration="1000">
-      {{text}}
-    </KToptips>
+     <KToptips v-model="tip.show" :type="tip.type" :duration="1000">
+        {{tip.text}}
+      </KToptips>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
 import Header from '@/common/Header.vue'
+import {Tip} from '../../config/util'
+import {AddDayInfo} from '../../api/dayinfo'
 
 const dayvalue = ['永不', '每天', '每周', '每月']
 
@@ -55,9 +57,11 @@ export default {
       dayvalue,
       min: 0,
       hour: 0,
-      show: false,
-      text: '',
-      type: 'error'
+      tip: {
+        show: false,
+        type: 'info',
+        text: ''
+      }
     }
   },
   methods: {
@@ -75,16 +79,18 @@ export default {
     getMin() {
       console.log(this.min)
     },
-    putFrom() {
+    async putFrom() {
       const alltime = Number(this.min) + (Number(this.hour) * 60)
       if (this.name === '') {
-        this.show = true
-        this.text = '活动名称不能为空'
+        this.tip = {
+          ...new Tip('活动名称不能为空','error').show()
+        }
         return false
       }
       if (alltime === 0) {
-        this.show = true
-        this.text = '时间不能为空哦'
+        this.tip = {
+          ...new Tip('时间不能为空哦','error').show()
+        }
         return false
       }
       const repeatValue = {
@@ -93,24 +99,37 @@ export default {
         '每周': () => 3,
         '每月': () => 4,
       }
-      let data  = {
-          dayInfo_name: this.name,
-          dayInfo_repeat: repeatValue[this.timeactive](),
-          dayInfo_time: this.min+this.hour*60,
-        }
-        console.log(data)
-      axios({
-        method: 'post',
-        url: 'http://localhost:3000/api/dayinfo/add',
-        data: data,
-        auth: {
-          username: localStorage.getItem('token')
-        }
-      }).then((res) => {
-        console.log(res)
-      }).catch((err) => {
-       console.log(err.response)
+      // let datavalue  = {
+      //   dayInfo_name: this.name,
+      //   dayInfo_repeat: repeatValue[this.timeactive](),
+      //   dayInfo_time: this.min+this.hour*60,
+      // }
+      // axios({
+      //   method: 'post',
+      //   url: 'http://localhost:3000/api/dayinfo/add',
+      //   data: data,
+      //   auth: {
+      //     username: localStorage.getItem('token')
+      //   }
+      // }).then((res) => {
+      //   console.log(res)
+      // }).catch((err) => {
+      //  console.log(err.response)
+      // })
+      try {
+        let data = await AddDayInfo({
+        dayInfo_name: this.name,
+        dayInfo_repeat: repeatValue[this.timeactive](),
+        dayInfo_time: this.min+this.hour*60,
       })
+        this.tip  = {
+          ...new Tip(data.data.msg||'success','success').show()
+        }
+      }catch(err) {
+        this.tip  = {
+          ... new Tip(err.response.data.msg||'错误','error').show()
+        }
+      }
       return true
     }
   }

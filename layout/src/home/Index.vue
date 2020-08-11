@@ -8,7 +8,7 @@
         </div>
       </Header>
     </header>
-    <main class="mt-header content">
+    <main class="mt-header content mb-footer">
       <Boxshow
       class="p10 boder-R mb10 df bg-white"
       v-for="(item,index) in listdata"
@@ -49,7 +49,12 @@ import Boxshow from '../common/Boxshow.vue'
 import Active from '../components/active.vue'
 import Web from 'reduce-loader!../common/Web.vue'
 import 'reduce-loader!./web'
-import axios from 'axios'
+import {GetDayInfo} from '../../api/dayinfo'
+const status = {
+  '0': 'ready',
+  '1': 'pause',
+  '2': 'end'
+}
 
 export default Vue.extend({
   name: 'Home',
@@ -127,17 +132,24 @@ export default Vue.extend({
       window.location.href = '/add'
     },
 
-    getData() {
-      axios.get('http://localhost:3000/api/dayinfo',{
-        auth:{
-          username:localStorage.getItem('token')
-        }
-      }).then((res)=> {
-        console.log(res)
-      }).catch((err) => {
-       console.log(err.response)
-      })
-
+    async getData() {
+      try {
+        let {data:{data}} = await GetDayInfo()
+        let table = []
+        data.forEach((item) => {
+          let tableitem = {
+            name:item.dayInfo_name,
+            time:item.dayInfo_time,
+            icon:`icon-${status[item.status]}`,
+            status:status[item.status],
+            ...item
+          }
+          table.push(tableitem)
+        })
+        this.listdata = table
+      }catch(err) {
+        console.log(err)
+      }
     }
 
   },

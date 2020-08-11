@@ -17,7 +17,11 @@ router.post('/add',new Auth().m, async (ctx,next) => {
   await DayInfo.add(ctx);
   console.log(ctx.header)
   successResponse({ctx,msg:"添加成功"})
-  // console.log(ctx)
+})
+
+router.get('/list',new Auth().m,async (ctx,next) => {
+  let data = await DayInfo.query(ctx);
+  successResponse({ctx,data})
 })
 
 module.exports = router

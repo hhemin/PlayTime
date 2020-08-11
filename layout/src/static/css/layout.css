@@ -28,7 +28,9 @@
 .mt-header {
   margin-top: 5rem;
 }
-
+.mb-footer {
+  margin-bottom: 5rem;
+}
 .p10 {
   padding: 1rem;
 }

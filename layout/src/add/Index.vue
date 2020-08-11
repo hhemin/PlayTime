@@ -36,14 +36,14 @@
 </template>
 
 <script>
-import axios from 'axios'
+import Vue from 'vue'
 import Header from '@/common/Header.vue'
 import {Tip} from '../../config/util'
 import {AddDayInfo} from '../../api/dayinfo'
 
 const dayvalue = ['永不', '每天', '每周', '每月']
 
-export default {
+export default Vue.extend({
   name: 'add',
   components: {
     Header
@@ -133,7 +133,7 @@ export default {
       return true
     }
   }
-}
+})
 </script>
 
 <style lang="less">

@@ -13,15 +13,26 @@ router.get('/', new Auth().m ,async (ctx,next) =>{
   }
 })
 
+// 添加计划
 router.post('/add',new Auth().m, async (ctx,next) => {
   await DayInfo.add(ctx);
   console.log(ctx.header)
   successResponse({ctx,msg:"添加成功"})
 })
 
-router.get('/list',new Auth().m,async (ctx,next) => {
+// 当天计划的列表
+router.get('/list',new Auth().m, async (ctx,next) => {
   let data = await DayInfo.query(ctx);
   successResponse({ctx,data})
 })
 
+// 编辑计划表
+router.post('/updatavalue',new Auth().m, async (ctx,next) => {
+  let data = await DayInfo.updata(ctx,'updatavalue');
+})
+
+router.post('/updataStatus',new Auth().m ,async (ctx,next) => {
+  let data = await DayInfo.updata(ctx,'updataStatus');
+  successResponse({ctx,msg:'暂停中',data})
+})
 module.exports = router

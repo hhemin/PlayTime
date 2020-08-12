@@ -5,7 +5,8 @@
       <time class="c-gray">计划{{item.time|| '时间'}}min</time>
       <br>
       剩下时间 <Time :time="item.time"></Time>
-       <!-- {{lasttime}} {{timestart}} -->
+       {{lasttime}} 
+       <!-- {{timestart}} -->
       <KButton v-show="visibletime" @click="stoptime">点我暂停</KButton>
       <KButton v-show="visible" @click="close">关闭</KButton>
     </div>
@@ -17,6 +18,12 @@
  * @name 运行状态计划
  * */
 import Time from '../common/Time.vue'
+import {UpdataStatus} from '../../api/dayinfo'
+const status = {
+  '0': 'ready',
+  '1': 'pause',
+  '2': 'end'
+}
 
 export default {
   name: 'active',
@@ -38,7 +45,6 @@ export default {
   watch: {
     lasttime(newvalue) {
       if (newvalue === 0) this.visibletime = false
-      // return true
     },
     visibletime(newvalue, oldvalue) {
       this.visible = oldvalue
@@ -60,9 +66,36 @@ export default {
     runtime() {
 
     },
+    // 改变icon图标
+    changeicon(changestatus) {
+      switch(changestatus) {
+        case status[1] :
+          this.item.status = 1 
+          this.item.icon = `icon-${status[this.item.status]}`
+          break
+        case status[2] :
+          this.item.status = 2 
+          this.item.icon = `icon-${status[this.item.status]}`
+          break
+        default:
+          throw new Error('没这个参数呀')
+      }
+    },
     // 暂停
-    stoptime() {
+    async stoptime() {
       this.visible = true
+      this.changeicon('pause')
+      //  console.log(this.item)
+       let _v = {
+         dayInfo_id:this.item.dayInfo_id,
+         finishtime:'00:58:00',// 剩下时间
+         status:1,//暂停设置1
+       }
+      try {
+        let data = await UpdataStatus(_v)
+      }catch(err) {
+        console.log(err)
+      }
     }
     // getTime(value) {
     //   let That = this;

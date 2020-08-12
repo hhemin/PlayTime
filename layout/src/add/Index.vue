@@ -17,7 +17,7 @@
         </div>
       </KCell>
       <div style="padding:16px" class="box">
-        分钟:<KSlider :show-value="true" :min="0" :max="60" bindchange="getMin" v-model="min"/>
+        分钟:<KSlider :show-value="true" :min="0" :max="59" bindchange="getMin" v-model="min"/>
         小时:<KSlider :show-value="true" :min="0" :max="24" bindchange="getHour" v-model="hour"/>
       </div>
       </KCells>
@@ -93,6 +93,12 @@ export default Vue.extend({
         }
         return false
       }
+      if(alltime > 24*60) {
+        this.tip = {
+          ...new Tip('时间不能大于一天哦','error').show()
+        }
+        return false
+      }
       const repeatValue = {
         '永不': () => 1,
         '每天': () => 2,
@@ -120,7 +126,7 @@ export default Vue.extend({
         let data = await AddDayInfo({
         dayInfo_name: this.name,
         dayInfo_repeat: repeatValue[this.timeactive](),
-        dayInfo_time: this.min+this.hour*60,
+        dayInfo_time: `${this.hour}:${this.min}:00`,
       })
         this.tip  = {
           ...new Tip(data.data.msg||'success','success').show()

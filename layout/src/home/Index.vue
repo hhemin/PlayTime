@@ -16,7 +16,7 @@
       >
         <div class="fiex">
           <h3>{{item.name}}</h3>
-          <span>{{item.time}} min</span>
+          <span>计划时间:{{item.time}}</span>
           <!-- <p>{{}}</p> -->
         </div>
         <div class="btn box-center box"
@@ -35,7 +35,7 @@
     </div> -->
     <!-- <Footer></Footer> -->
     <Screen :visible="visible" >
-      <Active :item="activedata" @close="close"></Active>
+      <Active :item.sync="activedata" @close="close"></Active>
     </Screen>
   </div>
 </template>
@@ -61,24 +61,24 @@ export default Vue.extend({
   data() {
     return {
       listdata: [
-        {
-          name: 'javaScript',
-          time: 5,
-          status: 'ready', // 状态（3个）未开启
-          icon: 'icon-ready'
-        },
-        {
-          name: '数据结构',
-          time: 30,
-          status: 'pause', // 状态（3个）暂停
-          icon: 'icon-pause'
-        },
-        {
-          name: 'java',
-          time: 10,
-          status: 'end', // 状态（3个）结束
-          icon: 'icon-end'
-        }
+        // {
+        //   name: 'javaScript',
+        //   time: 5,
+        //   status: 'ready', // 状态（3个）未开启
+        //   icon: 'icon-ready'
+        // },
+        // {
+        //   name: '数据结构',
+        //   time: 30,
+        //   status: 'pause', // 状态（3个）暂停
+        //   icon: 'icon-pause'
+        // },
+        // {
+        //   name: 'java',
+        //   time: 10,
+        //   status: 'end', // 状态（3个）结束
+        //   icon: 'icon-end'
+        // }
       ],
       activedata: {},
       visible: false, // 显示与隐藏对话框
@@ -117,7 +117,7 @@ export default Vue.extend({
     },
 
     onGo(item) {
-      console.log(this)
+      // console.log(this)
       this.show()
       this.activedata = item
     },
@@ -132,21 +132,25 @@ export default Vue.extend({
       window.location.href = '/add'
     },
 
+    formatdata(data) {
+      let table = []
+      data.forEach((item) => {
+        let tableitem = {
+          name:item.dayInfo_name,
+          time:item.dayInfo_time,
+          icon:`icon-${status[item.status]}`,
+          status:status[item.status],
+          ...item
+        }
+        table.push(tableitem)
+      })
+      return table
+    },
+
     async getData() {
       try {
         let {data:{data}} = await GetDayInfo()
-        let table = []
-        data.forEach((item) => {
-          let tableitem = {
-            name:item.dayInfo_name,
-            time:item.dayInfo_time,
-            icon:`icon-${status[item.status]}`,
-            status:status[item.status],
-            ...item
-          }
-          table.push(tableitem)
-        })
-        this.listdata = table
+        this.listdata = this.formatdata(data);
       }catch(err) {
         console.log(err)
       }

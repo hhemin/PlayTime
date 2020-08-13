@@ -40,8 +40,7 @@ import Vue from 'vue'
 import Header from '@/common/Header.vue'
 import {Tip} from '../../config/util'
 import {AddDayInfo} from '../../api/dayinfo'
-
-const dayvalue = ['永不', '每天', '每周', '每月']
+import {dayvalue} from '../../config/constant'
 
 export default Vue.extend({
   name: 'add',
@@ -127,6 +126,8 @@ export default Vue.extend({
         dayInfo_name: this.name,
         dayInfo_repeat: repeatValue[this.timeactive](),
         dayInfo_time: `${this.hour}:${this.min}:00`,
+        dayInfo_hour: this.hour,
+        dayInfo_minute: this.min
       })
         this.tip  = {
           ...new Tip(data.data.msg||'success','success').show()

@@ -17,6 +17,23 @@ class Tip {
   }
 }
 
+class Dialog {
+  static show({title,desc,diaBtn,show = true} = {}) {
+    return {
+      title,
+      desc,
+      show,
+      diaBtn
+    }
+  }
+  static hide() {
+    return {
+      show: false
+    }
+  }
+}
+
 export {
-  Tip
+  Tip,
+  Dialog
 }

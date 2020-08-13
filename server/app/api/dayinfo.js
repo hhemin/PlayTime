@@ -29,10 +29,12 @@ router.get('/list',new Auth().m, async (ctx,next) => {
 // 编辑计划表
 router.post('/updatavalue',new Auth().m, async (ctx,next) => {
   let data = await DayInfo.updata(ctx,'updatavalue');
+  successResponse({ctx,msg:'修改成功',data})
 })
-
+// 计划状态更改
 router.post('/updataStatus',new Auth().m ,async (ctx,next) => {
   let data = await DayInfo.updata(ctx,'updataStatus');
   successResponse({ctx,msg:'暂停中',data})
 })
+
 module.exports = router

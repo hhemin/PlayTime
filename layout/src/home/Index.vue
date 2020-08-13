@@ -15,7 +15,8 @@
       :key="index"
       >
         <div class="fiex">
-          <h3>{{item.name}}</h3>
+          <h3 v-if="item.status != 0">{{item.name}}</h3>
+          <h3 v-else @click="onEditor(item)">{{item.name}} <span class="iconfont icon-bianji"></span></h3>
           <span>计划时间:{{item.time}}</span>
           <!-- <p>{{}}</p> -->
         </div>
@@ -37,6 +38,9 @@
     <Screen :visible="visible" >
       <Active :item.sync="activedata" @close="close"></Active>
     </Screen>
+    <Screen :visible="editorvisible">
+      <component :is="Editor" :item.sync="editordata" @close="close"></component>
+    </Screen>
   </div>
 </template>
 
@@ -47,6 +51,7 @@ import Header from '../common/Header.vue'
 import Boxshow from '../common/Boxshow.vue'
 // import Screen from '../common/Screen.vue'
 import Active from '../components/active.vue'
+// import Editor from '../components/editor.vue'
 import Web from 'reduce-loader!../common/Web.vue'
 import 'reduce-loader!./web'
 import {GetDayInfo} from '../../api/dayinfo'
@@ -81,7 +86,10 @@ export default Vue.extend({
         // }
       ],
       activedata: {},
-      visible: false, // 显示与隐藏对话框
+      visible: false, // 开始计划 显示与隐藏对话框
+      editorvisible: false,// 编辑 显示与隐藏对话框
+      editordata: {},
+      Editor: null,
     }
   },
   components: {
@@ -91,6 +99,13 @@ export default Vue.extend({
     Boxshow,
     // Screen,
     Active,
+    // 'Editor':() => import('../components/editor.vue')
+  },
+  computed: {
+    // 通过计算属性动态引入组件
+    loaderWiew() {
+      return () => import("../components/editor.vue");
+    }
   },
   created() {
     window.addEventListener('wxload', query => console.log('page1 wxload', query))
@@ -111,13 +126,10 @@ export default Vue.extend({
       // window.location.href = '/test/list/123'
       window.open('/test/detail/123')
     },
-
     onClickOpen() {
       window.open('/test/detail/123')
     },
-
     onGo(item) {
-      // console.log(this)
       this.show()
       this.activedata = item
     },
@@ -126,12 +138,11 @@ export default Vue.extend({
     },
     close(value) {
       this.visible = value
+      this.editorvisible = value
     },
-
     goAdd() {
       window.location.href = '/add'
     },
-
     formatdata(data) {
       let table = []
       data.forEach((item) => {
@@ -146,7 +157,6 @@ export default Vue.extend({
       })
       return table
     },
-
     async getData() {
       try {
         let {data:{data}} = await GetDayInfo()
@@ -154,8 +164,19 @@ export default Vue.extend({
       }catch(err) {
         console.log(err)
       }
+    },
+    onEditor(value) {
+      this.loaderWiew().then(() => {
+        // 动态加载组件
+        this.Editor = () => this.loaderWiew();
+      }).catch(() => {
+        // 组件不存在时处理
+        // this.renderView = () => import("@/components/EmptyView.vue");
+      });
+      this.editordata = value
+      this.editorvisible = true
+      console.log(value)
     }
-
   },
 })
 </script>

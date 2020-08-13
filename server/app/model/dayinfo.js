@@ -54,11 +54,24 @@ class DayInfo {
   static async updatavalue(ctx,tablename) {
     // let {uid} = ctx.auth;
     // const wherevalue = `${}`
-    let value = {...ctx.request.body};
-    console.log(value);
-    // let data = await MysqlDom.query(Updata.fn(tablename))
-  }
+    let _bodyvalue = {...ctx.request.body};
+    console.log(_bodyvalue)
+    let wherevalue = ` dayInfo_id = ${_bodyvalue.dayInfo_id} `
+    delete _bodyvalue.dayInfo_id
+    let v = ''
+    console.log(_bodyvalue);
+    for(let i in _bodyvalue) {
+      v += `${i} = '${_bodyvalue[i]}',`
+      // if(i == Object.keys(_bodyvalue)[Object.keys(_bodyvalue).length -1]) {
+      //   v += `${i} = '${_bodyvalue[i]}'`
+      // } else {
+      //   v += `${i} = '${_bodyvalue[i]}',`
+      // }
+    }
+    v += ` updatetime = NOW() `
+    let data = await MysqlDom.query(Updata.fn(tablename,v,wherevalue))
 
+  }
   static async updataStatus(ctx,tablename) {
     let _bodyvalue = {...ctx.request.body}
     let wherevalue = ` dayInfo_id = ${_bodyvalue.dayInfo_id} `

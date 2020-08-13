@@ -10,11 +10,11 @@ const GetDayInfo = async () => {
   return await Request.getFn({url:'/api/dayinfo/list'})
 }
 
-// 编辑列表信息
+// 编辑计划表
 const UpdateInfo =  async (data) => {
   return await Request.postFn({url:'/api/dayinfo/updatavalue',data})
 }
-
+//  计划状态更改
 const UpdataStatus = async (data) => {
   return await Request.postFn({url:'/api/dayinfo/updataStatus',data})
 }
@@ -22,5 +22,6 @@ const UpdataStatus = async (data) => {
 export {
   AddDayInfo,
   GetDayInfo,
+  UpdateInfo,
   UpdataStatus
 }

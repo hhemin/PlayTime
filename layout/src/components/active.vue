@@ -6,7 +6,6 @@
       <br>
       剩下时间 <Time :time="item.time"></Time>
        {{lasttime}} 
-       <!-- {{timestart}} -->
       <KButton v-show="visibletime" @click="stoptime">点我暂停</KButton>
       <KButton v-show="visible" @click="close">关闭</KButton>
     </div>

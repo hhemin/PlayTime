@@ -1,7 +1,7 @@
 const MysqlDom = require('../../core/mysql-dom');
 const moment = require('moment');
 
-const {Select,Insert,Updata} = require('../../core/mysql-core')
+const {Select,Insert,Updata,DELETE} = require('../../core/mysql-core')
 class DayInfo {
   // 添加
   static async add(ctx) {
@@ -52,25 +52,16 @@ class DayInfo {
     }
   }
   static async updatavalue(ctx,tablename) {
-    // let {uid} = ctx.auth;
-    // const wherevalue = `${}`
     let _bodyvalue = {...ctx.request.body};
-    console.log(_bodyvalue)
     let wherevalue = ` dayInfo_id = ${_bodyvalue.dayInfo_id} `
     delete _bodyvalue.dayInfo_id
     let v = ''
-    console.log(_bodyvalue);
     for(let i in _bodyvalue) {
       v += `${i} = '${_bodyvalue[i]}',`
-      // if(i == Object.keys(_bodyvalue)[Object.keys(_bodyvalue).length -1]) {
-      //   v += `${i} = '${_bodyvalue[i]}'`
-      // } else {
-      //   v += `${i} = '${_bodyvalue[i]}',`
-      // }
     }
     v += ` updatetime = NOW() `
     let data = await MysqlDom.query(Updata.fn(tablename,v,wherevalue))
-
+    return JSON.parse(JSON.stringify(data))
   }
   static async updataStatus(ctx,tablename) {
     let _bodyvalue = {...ctx.request.body}
@@ -88,6 +79,14 @@ class DayInfo {
     v += ` f_uptime = NOW() `
     // f_uptime:NOW(),
     let data = await MysqlDom.query(Updata.fn(tablename,v,wherevalue))
+    return JSON.parse(JSON.stringify(data))
+  }
+  // 删除
+  static async delete(ctx) {
+    let _bodyvalue = {...ctx.request.body}
+    let tablename = 'dayInfo';
+    let wherevalue = ` dayInfo_id = ${_bodyvalue.dayInfo_id} `
+    let data = await MysqlDom.query(DELETE.fn(tablename,wherevalue))
     return JSON.parse(JSON.stringify(data))
   }
 }

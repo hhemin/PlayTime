@@ -29,9 +29,9 @@
       v-model="isShowTitle"
       @click='actionChoose'
     />
-     <KToptips v-model="tip.show" :type="tip.type" :duration="1000">
-        {{tip.text}}
-      </KToptips>
+    <KToptips v-model="tip.show" :type="tip.type" :duration="1000">
+      {{tip.text}}
+    </KToptips>
   </div>
 </template>
 
@@ -123,18 +123,18 @@ export default Vue.extend({
       // })
       try {
         let data = await AddDayInfo({
-        dayInfo_name: this.name,
-        dayInfo_repeat: repeatValue[this.timeactive](),
-        dayInfo_time: `${this.hour}:${this.min}:00`,
-        dayInfo_hour: this.hour,
-        dayInfo_minute: this.min
-      })
-        this.tip  = {
-          ...new Tip(data.data.msg||'success','success').show()
+          dayInfo_name: this.name,
+          dayInfo_repeat: repeatValue[this.timeactive](),
+          dayInfo_time: `${this.hour}:${this.min}:00`,
+          dayInfo_hour: this.hour,
+          dayInfo_minute: this.min
+        })
+        this.tip = {
+          ...new Tip(data.data.msg || 'success', 'success').show()
         }
-      }catch(err) {
-        this.tip  = {
-          ... new Tip(err.response.data.msg||'错误','error').show()
+      } catch(err) {
+        this.tip = {
+          ...new Tip(err.response.data.msg || '错误', 'error').show()
         }
       }
       return true

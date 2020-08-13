@@ -31,10 +31,17 @@ router.post('/updatavalue',new Auth().m, async (ctx,next) => {
   let data = await DayInfo.updata(ctx,'updatavalue');
   successResponse({ctx,msg:'修改成功',data})
 })
+
 // 计划状态更改
 router.post('/updataStatus',new Auth().m ,async (ctx,next) => {
   let data = await DayInfo.updata(ctx,'updataStatus');
   successResponse({ctx,msg:'暂停中',data})
+})
+
+// 删除计划
+router.post('/delete',new Auth().m, async(ctx,next) => {
+  let data = await DayInfo.delete(ctx);
+  successResponse({ctx,msg:'删除成功',data})
 })
 
 module.exports = router

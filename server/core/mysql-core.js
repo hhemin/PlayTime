@@ -36,8 +36,15 @@ class Updata {
   }
 }
 
+class DELETE {
+  static fn(tablename,wherevalue) {
+    return `DELETE FROM ${tablename} WHERE ${wherevalue};`
+  }
+}
+
 module.exports = {
   Select,
   Insert,
-  Updata
+  Updata,
+  DELETE
 }

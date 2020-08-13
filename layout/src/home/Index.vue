@@ -15,7 +15,7 @@
       :key="index"
       >
         <div class="fiex">
-          <h3 v-if="item.status != 0">{{item.name}}</h3>
+          <h3 v-if="item.status != 0" @click="onDelete(item.dayInfo_id)">{{item.name}} <span class="iconfont icon-shanchu"></span></h3>
           <h3 v-else @click="onEditor(item)">{{item.name}} <span class="iconfont icon-bianji"></span></h3>
           <span>计划时间:{{item.time}}</span>
           <!-- <p>{{}}</p> -->
@@ -41,6 +41,15 @@
     <Screen :visible="editorvisible">
       <component :is="Editor" :item.sync="editordata" @close="close"></component>
     </Screen>
+     <!-- 提示 -->
+    <KToptips v-model="tip.show" :type="tip.type" :duration="1000">
+      {{tip.text}}
+    </KToptips>
+    <KDialog
+      v-model="dislog.show"
+      :buttons="dislog.diaBtn"
+      :title="dislog.title"
+    />
   </div>
 </template>
 
@@ -54,7 +63,9 @@ import Active from '../components/active.vue'
 // import Editor from '../components/editor.vue'
 import Web from 'reduce-loader!../common/Web.vue'
 import 'reduce-loader!./web'
-import {GetDayInfo} from '../../api/dayinfo'
+import {GetDayInfo,DeleteInfo} from '../../api/dayinfo'
+import {Tip,Dialog} from '../../config/util'
+
 const status = {
   '0': 'ready',
   '1': 'pause',
@@ -90,6 +101,16 @@ export default Vue.extend({
       editorvisible: false,// 编辑 显示与隐藏对话框
       editordata: {},
       Editor: null,
+      tip: {
+        show: false,
+        type: 'info',
+        text: ''
+      },
+      dislog:{
+        show: false,
+        title:'',
+        diaBtn: [],
+      },
     }
   },
   components: {
@@ -176,7 +197,37 @@ export default Vue.extend({
       this.editordata = value
       this.editorvisible = true
       console.log(value)
-    }
+    },
+    async onDeleteData(id) {
+      let data = await DeleteInfo({
+        dayInfo_id:id
+      })
+      this.tip = {
+        ...new Tip('删除记录计划成功','success').show()
+      }
+      this.getData()
+    },
+    onDelete(id) {
+     let _v =  Dialog.show({
+       title:'是否进行删除当前计划',
+       diaBtn:[
+         {
+            text: '确定',
+            click: () => {
+              this.onDeleteData(id)
+              this.dislog.show = false
+            }
+          },
+          {
+            text: '取消',
+            click: () => {
+              this.dislog.show = false
+            }
+          }
+        ]
+      })
+      this.dislog = _v
+    },
   },
 })
 </script>

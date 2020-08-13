@@ -14,14 +14,21 @@ const GetDayInfo = async () => {
 const UpdateInfo =  async (data) => {
   return await Request.postFn({url:'/api/dayinfo/updatavalue',data})
 }
-//  计划状态更改
+
+// 计划状态更改
 const UpdataStatus = async (data) => {
   return await Request.postFn({url:'/api/dayinfo/updataStatus',data})
+}
+
+// 删除计划
+const DeleteInfo = async (data) => {
+  return await Request.postFn({url:'/api/dayinfo/delete',data})
 }
 
 export {
   AddDayInfo,
   GetDayInfo,
   UpdateInfo,
-  UpdataStatus
+  UpdataStatus,
+  DeleteInfo
 }

@@ -10,18 +10,38 @@
       <KCell
       :footer="formitem.timeactive">
         <div slot="title" @click="showChose" style="flex:1">
-          重复时间 
+          重复时间
         </div>
       </KCell>
       <div style="padding:16px" class="box">
-        分钟:<KSlider :show-value="true" :min="0" :max="59" bindchange="getMin" v-model="formitem.min"/>
-        小时:<KSlider :show-value="true" :min="0" :max="24" bindchange="getHour" v-model="formitem.hour"/>
+        分钟:<KSlider
+        :show-value="true"
+        :min="0"
+        :max="59"
+        bindchange="getMin"
+        v-model="formitem.min"/>
+        小时:<KSlider
+        :show-value="true"
+        :min="0"
+        :max="24"
+        bindchange="getHour"
+        v-model="formitem.hour"/>
       </div>
       </KCells>
       <div class="btnwarp">
-        <KButton type="primary" class="editor-btn" @click="putFrom">提交</KButton>
-        <KButton class="editor-btn" @click="cancel">取消</KButton>
-        <KButton type="warn" class="editor-btn" :loading="deletetip" :disabled="deletetip" @click="onDelete">删除</KButton>
+        <KButton
+        type="primary"
+        class="editor-btn"
+        @click="putFrom">提交</KButton>
+        <KButton
+        class="editor-btn"
+        @click="cancel">取消</KButton>
+        <KButton
+        type="warn"
+        class="editor-btn"
+        :loading="deletetip"
+        :disabled="deletetip"
+        @click="onDelete">删除</KButton>
       </div>
     </div>
     <!-- 弹出选择 -->
@@ -43,13 +63,13 @@
 </template>
 
 <script>
-import Vue from 'vue'
-import {Tip,Dialog} from '../../config/util'
+import { Tip, Dialog } from '../../config/util'
 import constant from '../../config/constant'
-import {UpdateInfo,DeleteInfo} from '../../api/dayinfo'
+import { UpdateInfo, DeleteInfo } from '../../api/dayinfo'
+
 export default {
   props: {
-    item:{
+    item: {
       type: Object
     }
   },
@@ -63,7 +83,7 @@ export default {
       //   repeat: 0,
       //   timeactive: '永不',
       // },
-      dayvalue:constant.dayvalue,
+      dayvalue: constant.dayvalue,
       isShowTitle: false,
       time: 0,
       tip: {
@@ -71,9 +91,9 @@ export default {
         type: 'info',
         text: ''
       },
-      dislog:{
+      dislog: {
         show: false,
-        title:'',
+        title: '',
         diaBtn: [],
       },
       deletetip: false,
@@ -98,7 +118,7 @@ export default {
       console.log(value)
     },
     // 时间选择器
-    actionChoose(e,index) {
+    actionChoose(e, index) {
       // console.log(e,index)
       this.formitem.timeactive = e
       this.formitem.repeat = index
@@ -114,38 +134,37 @@ export default {
       console.log(this.formitem.min)
     },
     async putFrom() {
-      let formdata = this.formitem
-      let _v = {
+      const formdata = this.formitem
+      const v = {
         dayInfo_hour: formdata.hour,
         dayInfo_name: formdata.name,
         dayInfo_time: `${formdata.hour}:${formdata.min}:00`,
-        dayInfo_hour: formdata.hour,
         dayInfo_minute: formdata.min,
         dayInfo_id: formdata.dayInfo_id
       }
-      let {data} = await UpdateInfo(_v)
+      const { data } = await UpdateInfo(v)
       this.tip = {
-        ...new Tip(data.msg,'success').show()
+        ...new Tip(data.msg, 'success').show()
       }
-      let _t = setTimeout(() => {
+      const t = setTimeout(() => {
         this.cancel()
-        clearTimeout(_t)
-      },1000)
+        clearTimeout(t)
+      }, 1000)
     },
     onDelete() {
-     let _v =  Dialog.show({
-       title:'是否进行删除当前计划',
-       diaBtn:[
-         {
+      const v = Dialog.show({
+        title: '是否进行删除当前计划',
+        diaBtn: [
+          {
             text: '确定',
             click: () => {
               this.DeleteFn()
               this.deletetip = true
               this.dislog.show = false
-              let _t = setTimeout(() => {
+              const t = setTimeout(() => {
                 this.cancel()
-                clearTimeout(_t)
-              },1000)
+                clearTimeout(t)
+              }, 1000)
             }
           },
           {
@@ -156,33 +175,33 @@ export default {
           }
         ]
       })
-      this.dislog = _v
+      this.dislog = v
     },
     async DeleteFn() {
-      let data = await DeleteInfo({
-        dayInfo_id:this.formitem.dayInfo_id
+      await DeleteInfo({
+        dayInfo_id: this.formitem.dayInfo_id
       })
       this.tip = {
-        ...new Tip('删除记录计划成功','success').show()
+        ...new Tip('删除记录计划成功', 'success').show()
       }
     },
     cancel() {
-      this.$emit('close',false)
+      this.$emit('close', false)
       Object.assign(this.$data, this.$options.data())
     },
   },
   computed: {
     formitem() {
       const itemdata = this.item
-      let _v = {
+      const v = {
         min: itemdata.dayInfo_minute,
         hour: itemdata.dayInfo_hour,
         name: itemdata.dayInfo_name,
-        repeat: itemdata.dayInfo_repeat,// 重复时间id
+        repeat: itemdata.dayInfo_repeat, // 重复时间id
         timeactive: constant.dayvalue[itemdata.dayInfo_repeat],
         dayInfo_id: itemdata.dayInfo_id
       }
-      return _v
+      return v
     },
   }
 }

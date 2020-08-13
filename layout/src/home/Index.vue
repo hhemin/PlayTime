@@ -15,10 +15,19 @@
       :key="index"
       >
         <div class="fiex">
-          <h3 v-if="item.status != 0" @click="onDelete(item.dayInfo_id)">{{item.name}} <span class="iconfont icon-shanchu"></span></h3>
-          <h3 v-else @click="onEditor(item)">{{item.name}} <span class="iconfont icon-bianji"></span></h3>
+          <h3
+            v-if="item.status != 0"
+            @click="onDelete(item.dayInfo_id)">
+            {{item.name}}
+            <span class="iconfont icon-shanchu"></span>
+          </h3>
+          <h3 v-else
+            @click="onEditor(item)">
+            {{item.name}}
+            <span class="iconfont icon-bianji"></span>
+          </h3>
           <span>计划时间:{{item.time}}</span>
-          <!-- <p>{{}}</p> -->
+          <p v-if="item.status != 2" class="c-verdant">{{item.status == 0? '未开始':'暂停中'}}</p>
         </div>
         <div class="btn box-center box"
         :class="[item.status]"
@@ -63,13 +72,13 @@ import Active from '../components/active.vue'
 // import Editor from '../components/editor.vue'
 import Web from 'reduce-loader!../common/Web.vue'
 import 'reduce-loader!./web'
-import {GetDayInfo,DeleteInfo} from '../../api/dayinfo'
-import {Tip,Dialog} from '../../config/util'
+import { GetDayInfo, DeleteInfo } from '../../api/dayinfo'
+import { Tip, Dialog } from '../../config/util'
 
 const status = {
-  '0': 'ready',
-  '1': 'pause',
-  '2': 'end'
+  0: 'ready',
+  1: 'pause',
+  2: 'end'
 }
 
 export default Vue.extend({
@@ -98,7 +107,7 @@ export default Vue.extend({
       ],
       activedata: {},
       visible: false, // 开始计划 显示与隐藏对话框
-      editorvisible: false,// 编辑 显示与隐藏对话框
+      editorvisible: false, // 编辑 显示与隐藏对话框
       editordata: {},
       Editor: null,
       tip: {
@@ -106,9 +115,9 @@ export default Vue.extend({
         type: 'info',
         text: ''
       },
-      dislog:{
+      dislog: {
         show: false,
-        title:'',
+        title: '',
         diaBtn: [],
       },
     }
@@ -125,7 +134,7 @@ export default Vue.extend({
   computed: {
     // 通过计算属性动态引入组件
     loaderWiew() {
-      return () => import("../components/editor.vue");
+      return () => import('../components/editor.vue')
     }
   },
   created() {
@@ -165,13 +174,13 @@ export default Vue.extend({
       window.location.href = '/add'
     },
     formatdata(data) {
-      let table = []
+      const table = []
       data.forEach((item) => {
-        let tableitem = {
-          name:item.dayInfo_name,
-          time:item.dayInfo_time,
-          icon:`icon-${status[item.status]}`,
-          status:status[item.status],
+        const tableitem = {
+          name: item.dayInfo_name,
+          time: item.dayInfo_time,
+          icon: `icon-${status[item.status]}`,
+          status: status[item.status],
           ...item
         }
         table.push(tableitem)
@@ -180,38 +189,39 @@ export default Vue.extend({
     },
     async getData() {
       try {
-        let {data:{data}} = await GetDayInfo()
-        this.listdata = this.formatdata(data);
-      }catch(err) {
+        const { data: { data } } = await GetDayInfo()
+        this.listdata = this.formatdata(data)
+      } catch (err) {
         console.log(err)
       }
     },
     onEditor(value) {
       this.loaderWiew().then(() => {
         // 动态加载组件
-        this.Editor = () => this.loaderWiew();
-      }).catch(() => {
-        // 组件不存在时处理
-        // this.renderView = () => import("@/components/EmptyView.vue");
-      });
+        this.Editor = () => this.loaderWiew()
+      })
+      // .catch(() => {
+      // 组件不存在时处理
+      // this.renderView = () => import("@/components/EmptyView.vue");
+      // })
       this.editordata = value
       this.editorvisible = true
       console.log(value)
     },
     async onDeleteData(id) {
-      let data = await DeleteInfo({
-        dayInfo_id:id
+      await DeleteInfo({
+        dayInfo_id: id
       })
       this.tip = {
-        ...new Tip('删除记录计划成功','success').show()
+        ...new Tip('删除记录计划成功', 'success').show()
       }
       this.getData()
     },
     onDelete(id) {
-     let _v =  Dialog.show({
-       title:'是否进行删除当前计划',
-       diaBtn:[
-         {
+      const v = Dialog.show({
+        title: '是否进行删除当前计划',
+        diaBtn: [
+          {
             text: '确定',
             click: () => {
               this.onDeleteData(id)
@@ -226,7 +236,7 @@ export default Vue.extend({
           }
         ]
       })
-      this.dislog = _v
+      this.dislog = v
     },
   },
 })

@@ -25,15 +25,14 @@ export default {
   },
   methods: {
     onRegister() {
-      axios.post('http://localhost:3000/api/users/register',{
-        username:this.form.username,
-        password:this.form.username
+      axios.post('http://localhost:3000/api/users/register', {
+        username: this.form.username,
+        password: this.form.username
       }).then((res) => {
         console.log(res)
       }).catch((err) => {
         console.log(err)
       })
-      // console.log('123')
     }
   }
 }

@@ -38,8 +38,8 @@
 <script>
 import Vue from 'vue'
 import Header from '@/common/Header.vue'
-import {Tip} from '../../config/util'
-import {AddDayInfo} from '../../api/dayinfo'
+import { Tip } from '../../config/util'
+import { AddDayInfo } from '../../api/dayinfo'
 import constant from '../../config/constant'
 
 export default Vue.extend({
@@ -53,7 +53,7 @@ export default Vue.extend({
       name: '',
       isShowTitle: false,
       timeactive: '永不',
-      dayvalue:constant.dayvalue,
+      dayvalue: constant.dayvalue,
       min: 0,
       hour: 0,
       tip: {
@@ -82,27 +82,27 @@ export default Vue.extend({
       const alltime = Number(this.min) + (Number(this.hour) * 60)
       if (this.name === '') {
         this.tip = {
-          ...new Tip('活动名称不能为空','error').show()
+          ...new Tip('活动名称不能为空', 'error').show()
         }
         return false
       }
       if (alltime === 0) {
         this.tip = {
-          ...new Tip('时间不能为空哦','error').show()
+          ...new Tip('时间不能为空哦', 'error').show()
         }
         return false
       }
-      if(alltime > 24*60) {
+      if (alltime > 24 * 60) {
         this.tip = {
-          ...new Tip('时间不能大于一天哦','error').show()
+          ...new Tip('时间不能大于一天哦', 'error').show()
         }
         return false
       }
       const repeatValue = {
-        '永不': () => 1,
-        '每天': () => 2,
-        '每周': () => 3,
-        '每月': () => 4,
+        永不: () => 1,
+        每天: () => 2,
+        每周: () => 3,
+        每月: () => 4,
       }
       // let datavalue  = {
       //   dayInfo_name: this.name,
@@ -122,7 +122,7 @@ export default Vue.extend({
       //  console.log(err.response)
       // })
       try {
-        let data = await AddDayInfo({
+        const data = await AddDayInfo({
           dayInfo_name: this.name,
           dayInfo_repeat: repeatValue[this.timeactive](),
           dayInfo_time: `${this.hour}:${this.min}:00`,
@@ -132,7 +132,7 @@ export default Vue.extend({
         this.tip = {
           ...new Tip(data.data.msg || 'success', 'success').show()
         }
-      } catch(err) {
+      } catch (err) {
         this.tip = {
           ...new Tip(err.response.data.msg || '错误', 'error').show()
         }

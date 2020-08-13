@@ -15,9 +15,8 @@
 </template>
 
 <script>
-import axios from 'axios'
-import {GetToken} from '../../api/users'
-import {Tip} from '../../config/util'
+import { GetToken } from '../../api/users'
+import { Tip } from '../../config/util'
 
 export default {
   name: 'login',
@@ -37,19 +36,19 @@ export default {
   methods: {
     async onlogin() {
       try {
-        let {data} = await GetToken({
+        const { data } = await GetToken({
           username: this.form.username,
           password: this.form.password
         })
-        this.tip  = {
-          ...new Tip(data.msg||'','success').show()
+        this.tip = {
+          ...new Tip(data.msg || '', 'success').show()
         }
-        localStorage.setItem('token',data.data)
+        localStorage.setItem('token', data.data)
         this.$router.push('/')
-      }catch(err) {
+      } catch (err) {
         // console.log(err)
-        this.tip  = {
-          ... new Tip(err.response.data.msg||'错误','error').show()
+        this.tip = {
+          ...new Tip(err.response.data.msg || '错误', 'error').show()
         }
       }
     }

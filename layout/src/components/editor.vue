@@ -45,8 +45,8 @@
 <script>
 import Vue from 'vue'
 import {Tip,Dialog} from '../../config/util'
-import {dayvalue} from '../../config/constant'
-import {UpdateInfo} from '../../api/dayinfo'
+import constant from '../../config/constant'
+import {UpdateInfo,DeleteInfo} from '../../api/dayinfo'
 export default {
   props: {
     item:{
@@ -63,7 +63,7 @@ export default {
       //   repeat: 0,
       //   timeactive: '永不',
       // },
-      dayvalue,
+      dayvalue:constant.dayvalue,
       isShowTitle: false,
       time: 0,
       tip: {
@@ -139,11 +139,8 @@ export default {
          {
             text: '确定',
             click: () => {
-              console.log(this)
+              this.DeleteFn()
               this.deletetip = true
-              this.tip = {
-                ...new Tip('删除记录计划成功','success').show()
-              }
               this.dislog.show = false
               let _t = setTimeout(() => {
                 this.cancel()
@@ -162,7 +159,12 @@ export default {
       this.dislog = _v
     },
     async DeleteFn() {
-      await '删除事件接口绑定'
+      let data = await DeleteInfo({
+        dayInfo_id:this.formitem.dayInfo_id
+      })
+      this.tip = {
+        ...new Tip('删除记录计划成功','success').show()
+      }
     },
     cancel() {
       this.$emit('close',false)
@@ -177,7 +179,7 @@ export default {
         hour: itemdata.dayInfo_hour,
         name: itemdata.dayInfo_name,
         repeat: itemdata.dayInfo_repeat,// 重复时间id
-        timeactive: dayvalue[itemdata.dayInfo_repeat],
+        timeactive: constant.dayvalue[itemdata.dayInfo_repeat],
         dayInfo_id: itemdata.dayInfo_id
       }
       return _v

@@ -40,7 +40,7 @@ import Vue from 'vue'
 import Header from '@/common/Header.vue'
 import {Tip} from '../../config/util'
 import {AddDayInfo} from '../../api/dayinfo'
-import {dayvalue} from '../../config/constant'
+import constant from '../../config/constant'
 
 export default Vue.extend({
   name: 'add',
@@ -53,7 +53,7 @@ export default Vue.extend({
       name: '',
       isShowTitle: false,
       timeactive: '永不',
-      dayvalue,
+      dayvalue:constant.dayvalue,
       min: 0,
       hour: 0,
       tip: {

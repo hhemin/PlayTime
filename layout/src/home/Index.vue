@@ -16,18 +16,21 @@
       >
         <div class="fiex">
           <h3
-            v-if="item.status != 0"
+            v-if="item.status === 1"
             @click="onDelete(item.dayInfo_id)">
             {{item.name}}
             <span class="iconfont icon-shanchu"></span>
           </h3>
-          <h3 v-else
+          <h3 v-else-if="item.status === 0"
             @click="onEditor(item)">
             {{item.name}}
             <span class="iconfont icon-bianji"></span>
           </h3>
+          <h3 v-else>
+            {{item.name}}
+          </h3>
           <span>计划时间:{{item.time}}</span>
-          <p v-if="item.status != 2" class="c-verdant">{{item.status == 0? '未开始':'暂停中'}}</p>
+          <p v-if="item.status != 2" class="c-verdant">{{item.status == 0? '未开始':`暂停中,剩下${item.finishtime}`}}</p>
         </div>
         <div class="btn box-center box"
         :class="[item.status]"
@@ -45,7 +48,7 @@
     </div> -->
     <!-- <Footer></Footer> -->
     <Screen :visible="visible" >
-      <Active :item.sync="activedata" @close="close"></Active>
+      <Active :item.sync="activedata" @close="close" ref="active"></Active>
     </Screen>
     <Screen :visible="editorvisible">
       <component :is="Editor" :item.sync="editordata" @close="close"></component>
@@ -74,12 +77,13 @@ import Web from 'reduce-loader!../common/Web.vue'
 import 'reduce-loader!./web'
 import { GetDayInfo, DeleteInfo } from '../../api/dayinfo'
 import { Tip, Dialog } from '../../config/util'
+import constant from '../../config/constant'
 
-const status = {
-  0: 'ready',
-  1: 'pause',
-  2: 'end'
-}
+// const status = {
+//   0: 'ready',
+//   1: 'pause',
+//   2: 'end'
+// }
 
 export default Vue.extend({
   name: 'Home',
@@ -160,8 +164,10 @@ export default Vue.extend({
       window.open('/test/detail/123')
     },
     onGo(item) {
+      if(item.status === 2) return false
       this.show()
       this.activedata = item
+      this.$refs.active.runtime(item.time)
     },
     show() {
       this.visible = true
@@ -179,8 +185,8 @@ export default Vue.extend({
         const tableitem = {
           name: item.dayInfo_name,
           time: item.dayInfo_time,
-          icon: `icon-${status[item.status]}`,
-          status: status[item.status],
+          icon: `icon-${constant.status[item.status]}`,
+          status: constant.status[item.status],
           ...item
         }
         table.push(tableitem)

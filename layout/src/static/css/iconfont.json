@@ -6,6 +6,13 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "8765152",
+      "name": "关闭",
+      "font_class": "close",
+      "unicode": "e62a",
+      "unicode_decimal": 58922
+    },
+    {
       "icon_id": "13646788",
       "name": "返回",
       "font_class": "back",
@@ -78,21 +85,21 @@
     {
       "icon_id": "16274638",
       "name": "首页",
-      "font_class": "home-copy",
+      "font_class": "home",
       "unicode": "e707",
       "unicode_decimal": 59143
     },
     {
       "icon_id": "16274639",
       "name": "个人",
-      "font_class": "me-copy",
+      "font_class": "me",
       "unicode": "e708",
       "unicode_decimal": 59144
     },
     {
       "icon_id": "16274640",
       "name": "时间",
-      "font_class": "time-copy",
+      "font_class": "time",
       "unicode": "e709",
       "unicode_decimal": 59145
     }

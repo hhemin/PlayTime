@@ -1,13 +1,24 @@
 <template>
   <div class="activebox box-center">
-    <div class="mian center">
+    <div class="main center">
+      <span class="iconfont icon-end" v-show="showend"></span>
       <h1>{{item.name || 'aaa'}}</h1>
-      <time class="c-gray">计划{{item.time|| '时间'}}</time>
-      <br>
-      剩下时间 <Time :time="item.time"></Time>
-       {{lasttime}}
-      <KButton v-show="visibletime" @click="stoptime">点我暂停</KButton>
-      <KButton v-show="visible" @click="close">关闭</KButton>
+      <time style="coloe:#002766">计划消耗{{item.time|| '时间'}}</time>
+      <h3 style="font-size:50px;">{{lasttime}}</h3>
+      <!-- <Time :time="item.time" ></Time> -->
+      <div class="active-btnwarp df">
+        <div class="active-btn" v-show="showbtnA">
+          <span class="iconfont icon-pause" @click="stoptime"></span>
+        </div>
+        <div v-show="showbtnB" class="df" style="width:100%">
+          <div class="active-btn" v-show="!showend">
+            <span class="iconfont icon-ready" @click="onkeep"></span>
+          </div>
+          <div class="active-btn">
+            <span class="iconfont icon-close" @click="close"></span>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -16,20 +27,12 @@
 /**
  * @name 运行状态计划
  * */
-import Time from '../common/Time.vue'
 import { UpdataStatus } from '../../api/dayinfo'
-
-const status = {
-  0: 'ready',
-  1: 'pause',
-  2: 'end'
-}
+import { GetTime } from '../static/js/getTime'
+import constant from '../../config/constant'
 
 export default {
   name: 'active',
-  components: {
-    Time
-  },
   props: {
     item: {
       type: Object,
@@ -38,42 +41,43 @@ export default {
   data() {
     return {
       lasttime: '时间开始',
-      visible: false,
-      visibletime: true
+      showbtnA: true,
+      showend: false,
     }
   },
   watch: {
     lasttime(newvalue) {
-      if (newvalue === 0) this.visibletime = false
-    },
-    visibletime(newvalue, oldvalue) {
-      this.visible = oldvalue
+      if(newvalue === '00:00:00') {
+        this.stoptime({statusvalue:2})
+      }
     }
   },
   methods: {
     close() {
       this.$emit('close', false)
-      this.visibletime = true
-      this.visibletime = false
-    },
-    // 计算剩下时间
-    hastime() {
-      // if(lasttime == 0) {
-      //   this.visibletime = false
-      // }
+      this.showbtnA = true
     },
     // 运行
-    runtime() {
-
+    runtime(time) {
+      this.lasttime = time
+      GetTime.startTime(time)
+      let t = setInterval(()=> {
+        if(this.lasttime === '00:00:01') {
+          clearInterval(t)
+          this.showbtnA = false
+          this.showend = true
+        }
+        this.lasttime = GetTime.getValue()
+      },1000)
     },
     // 改变icon图标
     changeicon(changestatus) {
       switch (changestatus) {
-        case status[1]:
+        case constant.status[1]:
           this.item.status = 1
           this.item.icon = `icon-${status[this.item.status]}`
           break
-        case status[2]:
+        case constant.status[2]:
           this.item.status = 2
           this.item.icon = `icon-${status[this.item.status]}`
           break
@@ -82,30 +86,29 @@ export default {
       }
     },
     // 暂停
-    async stoptime() {
-      this.visible = true
-      this.changeicon('pause')
-      //  console.log(this.item)
+    async stoptime({statusvalue=1}={}) {
+      this.showbtnA = false
+      this.changeicon(constant.status[statusvalue])
+      GetTime.stopTime()
       const v = {
         dayInfo_id: this.item.dayInfo_id,
-        finishtime: '00:58:00', // 剩下时间
-        status: 1 // 暂停设置1
+        finishtime: this.lasttime, // 剩下时间
+        status:statusvalue, // 暂停设置1
       }
       try {
         await UpdataStatus(v)
       } catch (err) {
         console.log(err)
       }
+    },
+    onkeep() {
+      this.showbtnA = true
     }
-    // getTime(value) {
-    //   let That = this;
-    //   let Timevalue = value
-    //   let fn = setInterval(() => {
-    //     Time.RunTime(Timevalue,fn)
-    //   },1000)
-    // }
   },
   computed: {
+    showbtnB() {
+      return !this.showbtnA
+    }
     // timestart() {
     // let v = this.item.time
     // if(!v) return false
@@ -125,8 +128,38 @@ export default {
 .activebox {
   width: 100%;
   min-height: 100%;
+  .main {
+     position: relative;
+    .icon-end {
+      position: absolute;
+      top: -200px;
+      right: -60px;
+      z-index: -1;
+      font-size: 200px;
+      color: #ff4d4f;
+      animation:mymove 3s ease-out ;
+    }
+  }
   h1 {
-    color: #f5222d;
+    color: #002329;
+  }
+  .active-btnwarp {
+    transform: translateY(100px);
+    max-width: 360px;
+    .active-btn {
+      padding: 10px 40px;
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      span {
+        font-size: 60px;
+      }
+      // width: 80px;
+    }
+  }
+  @keyframes mymove {
+    0%  {top:-180px;opacity: 0;}
+    100% {top:-200px;opacity: 1;}
   }
   // .main {
   // }

@@ -66,6 +66,7 @@
 import { Tip, Dialog } from '../../config/util'
 import constant from '../../config/constant'
 import { UpdateInfo, DeleteInfo } from '../../api/dayinfo'
+import { mapActions } from 'vuex'
 
 export default {
   props: {
@@ -114,6 +115,7 @@ export default {
     // }
   },
   methods: {
+    ...mapActions('home', ['getListdata']),
     getData(value) {
       console.log(value)
     },
@@ -143,6 +145,7 @@ export default {
         dayInfo_id: formdata.dayInfo_id
       }
       const { data } = await UpdateInfo(v)
+      this.getListdata()
       this.tip = {
         ...new Tip(data.msg, 'success').show()
       }

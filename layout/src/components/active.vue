@@ -30,6 +30,7 @@
 import { UpdataStatus } from '../../api/dayinfo'
 import { GetTime } from '../static/js/getTime'
 import constant from '../../config/constant'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'active',
@@ -47,28 +48,30 @@ export default {
   },
   watch: {
     lasttime(newvalue) {
-      if(newvalue === '00:00:00') {
-        this.stoptime({statusvalue:2})
+      if (newvalue === '00:00:00') {
+        this.stoptime({ statusvalue: 2 })
       }
     }
   },
   methods: {
+    ...mapActions('home', ['getListdata']),
     close() {
       this.$emit('close', false)
       this.showbtnA = true
+      this.getListdata()
     },
     // 运行
     runtime(time) {
       this.lasttime = time
       GetTime.startTime(time)
-      let t = setInterval(()=> {
-        if(this.lasttime === '00:00:01') {
+      const t = setInterval(() => {
+        if (this.lasttime === '00:00:01') {
           clearInterval(t)
           this.showbtnA = false
           this.showend = true
         }
         this.lasttime = GetTime.getValue()
-      },1000)
+      }, 1000)
     },
     // 改变icon图标
     changeicon(changestatus) {
@@ -86,14 +89,14 @@ export default {
       }
     },
     // 暂停
-    async stoptime({statusvalue=1}={}) {
+    async stoptime({ statusvalue = 1 } = {}) {
       this.showbtnA = false
       this.changeicon(constant.status[statusvalue])
       GetTime.stopTime()
       const v = {
         dayInfo_id: this.item.dayInfo_id,
         finishtime: this.lasttime, // 剩下时间
-        status:statusvalue, // 暂停设置1
+        status: statusvalue, // 暂停设置1
       }
       try {
         await UpdataStatus(v)
@@ -102,6 +105,7 @@ export default {
       }
     },
     onkeep() {
+      this.runtime(this.lasttime)
       this.showbtnA = true
     }
   },
@@ -109,17 +113,6 @@ export default {
     showbtnB() {
       return !this.showbtnA
     }
-    // timestart() {
-    // let v = this.item.time
-    // if(!v) return false
-    // const That = this
-    // let fn =  setInterval(()=> {
-    //     --v
-    //     That.lasttime = v
-    //     if(v === 0) clearInterval(fn)
-    //    console.log(v)
-    //  },1000)
-    // }
   }
 }
 </script>

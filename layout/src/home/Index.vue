@@ -30,7 +30,11 @@
             {{item.name}}
           </h3>
           <span>计划时间:{{item.time}}</span>
-          <p v-if="item.status != 2" class="c-verdant">{{item.status == 0? '未开始':`暂停中,剩下${item.finishtime}`}}</p>
+          <p
+            v-if="item.status != 2"
+            class="c-verdant">
+            {{item.status == 0? '未开始':`暂停中,剩下${item.finishtime}`}}
+          </p>
         </div>
         <div class="btn box-center box"
         :class="[item.status]"
@@ -75,40 +79,35 @@ import Active from '../components/active.vue'
 // import Editor from '../components/editor.vue'
 import Web from 'reduce-loader!../common/Web.vue'
 import 'reduce-loader!./web'
-import { GetDayInfo, DeleteInfo } from '../../api/dayinfo'
+import { DeleteInfo } from '../../api/dayinfo'
 import { Tip, Dialog } from '../../config/util'
-import constant from '../../config/constant'
-
-// const status = {
-//   0: 'ready',
-//   1: 'pause',
-//   2: 'end'
-// }
+// import constant from '../../config/constant'
+import { mapState, mapActions } from 'vuex'
 
 export default Vue.extend({
   name: 'Home',
   data() {
     return {
-      listdata: [
-        // {
-        //   name: 'javaScript',
-        //   time: 5,
-        //   status: 'ready', // 状态（3个）未开启
-        //   icon: 'icon-ready'
-        // },
-        // {
-        //   name: '数据结构',
-        //   time: 30,
-        //   status: 'pause', // 状态（3个）暂停
-        //   icon: 'icon-pause'
-        // },
-        // {
-        //   name: 'java',
-        //   time: 10,
-        //   status: 'end', // 状态（3个）结束
-        //   icon: 'icon-end'
-        // }
-      ],
+      // listdata: [
+      // {
+      //   name: 'javaScript',
+      //   time: 5,
+      //   status: 'ready', // 状态（3个）未开启
+      //   icon: 'icon-ready'
+      // },
+      // {
+      //   name: '数据结构',
+      //   time: 30,
+      //   status: 'pause', // 状态（3个）暂停
+      //   icon: 'icon-pause'
+      // },
+      // {
+      //   name: 'java',
+      //   time: 10,
+      //   status: 'end', // 状态（3个）结束
+      //   icon: 'icon-end'
+      // }
+      // ],
       activedata: {},
       visible: false, // 开始计划 显示与隐藏对话框
       editorvisible: false, // 编辑 显示与隐藏对话框
@@ -139,7 +138,10 @@ export default Vue.extend({
     // 通过计算属性动态引入组件
     loaderWiew() {
       return () => import('../components/editor.vue')
-    }
+    },
+    ...mapState({
+      listdata: state => state.home.listData,
+    })
   },
   created() {
     window.addEventListener('wxload', query => console.log('page1 wxload', query))
@@ -153,9 +155,11 @@ export default Vue.extend({
     } else {
       console.log('I am in Web')
     }
-    this.getData()
+    // this.getData()
+    this.getListdata()
   },
   methods: {
+    ...mapActions('home', ['getListdata']),
     onClickJump() {
       // window.location.href = '/test/list/123'
       window.open('/test/detail/123')
@@ -164,10 +168,11 @@ export default Vue.extend({
       window.open('/test/detail/123')
     },
     onGo(item) {
-      if(item.status === 2) return false
+      if (item.status === 2) return false
       this.show()
       this.activedata = item
-      this.$refs.active.runtime(item.time)
+      this.$refs.active.runtime(item.finishtime)
+      return true
     },
     show() {
       this.visible = true
@@ -179,28 +184,28 @@ export default Vue.extend({
     goAdd() {
       window.location.href = '/add'
     },
-    formatdata(data) {
-      const table = []
-      data.forEach((item) => {
-        const tableitem = {
-          name: item.dayInfo_name,
-          time: item.dayInfo_time,
-          icon: `icon-${constant.status[item.status]}`,
-          status: constant.status[item.status],
-          ...item
-        }
-        table.push(tableitem)
-      })
-      return table
-    },
-    async getData() {
-      try {
-        const { data: { data } } = await GetDayInfo()
-        this.listdata = this.formatdata(data)
-      } catch (err) {
-        console.log(err)
-      }
-    },
+    // formatdata(data) {
+    //   const table = []
+    //   data.forEach((item) => {
+    //     const tableitem = {
+    //       name: item.dayInfo_name,
+    //       time: item.dayInfo_time,
+    //       icon: `icon-${constant.status[item.status]}`,
+    //       status: constant.status[item.status],
+    //       ...item
+    //     }
+    //     table.push(tableitem)
+    //   })
+    //   return table
+    // },
+    // async getData() {
+    //   try {
+    //     const { data: { data } } = await GetDayInfo()
+    //     this.listdata = this.formatdata(data)
+    //   } catch (err) {
+    //     console.log(err)
+    //   }
+    // },
     onEditor(value) {
       this.loaderWiew().then(() => {
         // 动态加载组件
@@ -221,7 +226,8 @@ export default Vue.extend({
       this.tip = {
         ...new Tip('删除记录计划成功', 'success').show()
       }
-      this.getData()
+      // this.getData()
+      this.getListdata()
     },
     onDelete(id) {
       const v = Dialog.show({

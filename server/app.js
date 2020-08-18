@@ -10,4 +10,4 @@ app.use(catchError);
 app.use(parser());
 InitManager.initCore(app);
 
-app.listen(3000);
+app.listen(3000,'0.0.0.0');

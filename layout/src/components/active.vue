@@ -1,6 +1,7 @@
 <template>
   <div class="activebox box-center">
     <div class="main center">
+      <music ref="music"></music>
       <span class="iconfont icon-end" v-show="showend"></span>
       <h1>{{item.name || 'aaa'}}</h1>
       <time style="coloe:#002766">计划消耗{{item.time|| '时间'}}</time>
@@ -30,6 +31,7 @@
 import { UpdataStatus } from '../../api/dayinfo'
 import { GetTime } from '../static/js/getTime'
 import constant from '../../config/constant'
+import music from './music.vue'
 import { mapActions } from 'vuex'
 
 export default {
@@ -39,16 +41,20 @@ export default {
       type: Object,
     }
   },
+  components: {
+    music
+  },
   data() {
     return {
       lasttime: '时间开始',
       showbtnA: true,
-      showend: false,
+      showend: false,// 结束提示 true，暂停 false
     }
   },
   watch: {
     lasttime(newvalue) {
       if (newvalue === '00:00:00') {
+        this.showend = true
         this.stoptime({ statusvalue: 2 })
       }
     }
@@ -56,19 +62,24 @@ export default {
   methods: {
     ...mapActions('home', ['getListdata']),
     close() {
+      if (this.showend) {
+        this.$refs.music.stop()
+      }
       this.$emit('close', false)
       this.showbtnA = true
       this.getListdata()
     },
     // 运行
     runtime(time) {
+      // time 格式 hhmmss
       this.lasttime = time
       GetTime.startTime(time)
+      this.showend = this.$options.data.showend; // 重置end
+      this.$refs.music.playcontrol(time)
       const t = setInterval(() => {
         if (this.lasttime === '00:00:01') {
           clearInterval(t)
           this.showbtnA = false
-          this.showend = true
         }
         this.lasttime = GetTime.getValue()
       }, 1000)
@@ -90,6 +101,9 @@ export default {
     },
     // 暂停
     async stoptime({ statusvalue = 1 } = {}) {
+      if(statusvalue === 1) {
+        this.$refs.music.stop()
+      }
       this.showbtnA = false
       this.changeicon(constant.status[statusvalue])
       GetTime.stopTime()

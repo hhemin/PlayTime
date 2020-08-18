@@ -81,3 +81,9 @@ npm run build:mp
 ## License
 
 MIT 
+
+## Safari 和 微信 浏览器音乐播放不能自动播放
+/components/music.vue 
+通过倒计时来控制播放
+
+

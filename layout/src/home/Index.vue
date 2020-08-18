@@ -171,7 +171,7 @@ export default Vue.extend({
       if (item.status === 2) return false
       this.show()
       this.activedata = item
-      this.$refs.active.runtime(item.finishtime)
+      this.$refs.active.runtime(item.finishtime || item.time)
       return true
     },
     show() {

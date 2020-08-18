@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const URL  = process.env.NODE_ENV == 'development' ? 'http://localhost:3000' :''
+const URL  = process.env.NODE_ENV == 'development' ? 'http://192.168.0.107:3000' :'http://192.168.0.107:3000'
 
 const server = axios.create({
   baseURL: URL,

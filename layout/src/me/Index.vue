@@ -1,7 +1,9 @@
 <template>
   <div class="mebox">
     <div class="photo box"  :style="{backgroundImage:`url(${src})`}" >
-      <div class="myphoto"></div>
+      <div class="myphoto box">
+         <img :src="usresrc" alt="" class="userimg">
+      </div>
       <div class="flex"></div>
     </div>
     <div class="info box">
@@ -28,7 +30,8 @@ export default {
   data() {
     return {
       src: '',
-      id: '1231231231',
+      usresrc: 'http://cdn.hmepay.cn/TimePlay/info.png',
+      // id: '1231231231',
       list: [
         {
           name: '微信绑定',
@@ -73,9 +76,16 @@ export default {
     .myphoto {
       width: 100px;
       height: 100px;
-      border-radius: 50%;
-      background-color: yellow;
+      border-radius: 10px;
+      overflow: hidden;
       transform: translate(20px, 130px);
+      box-shadow: 0px 1px 5px 0px #868686;
+      border: 5px solid #eaeaea;
+      .userimg {
+        width: 100%;
+        height: 100%;
+       transform:scaleX(1)
+      }
     }
   }
   .info {

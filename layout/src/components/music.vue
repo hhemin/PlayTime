@@ -22,32 +22,31 @@ export default {
   name: 'music',
   data() {
     return {
-      mp3: '',//../static/mp3/music.mp3
+      mp3: '',
       show: false,
     }
   },
   methods: {
     playcontrol(time) {
-      console.log(time)
-      let timeForm = moment(time, "hhmmss"),
-      hour = Number(timeForm.format("HH")),
-      min =  Number(timeForm.format("mm")),
-      second =  Number(timeForm.format("ss"))
-      const v = (hour*60*60 + min*60 + second)*1000
+      const timeForm = moment(time, 'hhmmss')
+      const hour = Number(timeForm.format('HH'))
+      const min = Number(timeForm.format('mm'))
+      const second = Number(timeForm.format('ss'))
+      const v = ((hour * 60 * 60) + (min * 60) + second) * 1000
       console.log('开始静')
       this.$refs.audio.src = 'http://cdn.hmepay.cn/TimePlay/mp3/music.mp3'
       const audio = this.$refs.audio
       const That = this
       audio.play()
       audio.muted = true
-      console.log(v)
+      // console.log(v)
       setfn = setTimeout(() => {
         console.log('播放')
-        audio.currentTime = 0;
+        audio.currentTime = 0
         That.show = true
         audio.play()
         audio.muted = false
-      },v)
+      }, v)
     },
     stop() {
       const audio = this.$refs.audio

@@ -48,7 +48,7 @@ export default {
     return {
       lasttime: '时间开始',
       showbtnA: true,
-      showend: false,// 结束提示 true，暂停 false
+      showend: false// 结束提示 true，暂停 false
     }
   },
   watch: {
@@ -74,7 +74,7 @@ export default {
       // time 格式 hhmmss
       this.lasttime = time
       GetTime.startTime(time)
-      this.showend = this.$options.data.showend; // 重置end
+      this.showend = this.$options.data.showend // 重置end
       this.$refs.music.playcontrol(time)
       const t = setInterval(() => {
         if (this.lasttime === '00:00:01') {
@@ -101,7 +101,7 @@ export default {
     },
     // 暂停
     async stoptime({ statusvalue = 1 } = {}) {
-      if(statusvalue === 1) {
+      if (statusvalue === 1) {
         this.$refs.music.stop()
       }
       this.showbtnA = false

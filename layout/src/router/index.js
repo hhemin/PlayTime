@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-const Menu = () => import(/* webpackChunkName: "Menu" */'@/components/menu/Index.vue')
+// const Menu = () => import(/* webpackChunkName: "Menu" */'@/components/menu/Index.vue')
 const Home = () => import(/* webpackChunkName: "Home" */'@/home/Index.vue')
 const List = () => import(/* webpackChunkName: "List" */'@/list/Index.vue')
 const Detail = () => import(/* webpackChunkName: "Detail" */'@/detail/Index.vue')
@@ -15,40 +15,40 @@ Vue.use(Router)
 const router = new Router({
   mode: 'history',
   routes: [
-    {
-      path: '/',
-      name: 'Menu',
-      component: Menu,
-      children: [
-        {
-          path: '/',
-          name: 'Home',
-          component: Home,
-          meta: {
-            Login: true,
-            Active: true,
-          },
-        },
-        {
-          path: '/me',
-          name: 'Me',
-          component: Me,
-          meta: {
-            Login: true,
-            Active: true,
-          },
-        },
-        {
-          path: '/day',
-          name: 'Day',
-          component: Day,
-          meta: {
-            Login: true,
-            Active: true,
-          },
-        }
-      ]
-    },
+    // {
+    //   path: '/',
+    //   name: 'Menu',
+    //   component: Menu,
+    //   children: [
+    //     {
+    //       path: '/',
+    //       name: 'Home',
+    //       component: Home,
+    //       meta: {
+    //         Login: true,
+    //         Active: true,
+    //       },
+    //     },
+    //     {
+    //       path: '/me',
+    //       name: 'Me',
+    //       component: Me,
+    //       meta: {
+    //         Login: true,
+    //         Active: true,
+    //       },
+    //     },
+    //     {
+    //       path: '/day',
+    //       name: 'Day',
+    //       component: Day,
+    //       meta: {
+    //         Login: true,
+    //         Active: true,
+    //       },
+    //     }
+    //   ]
+    // },
     // {
     //   path: '/(home|index)?',
     //   name: 'Home',
@@ -62,6 +62,33 @@ const router = new Router({
     //   name: 'HomeTest',
     //   component: Home,
     // },
+    {
+      path: '/',
+      name: 'Home',
+      component: Home,
+      meta: {
+        Login: true,
+        Active: true,
+      },
+    },
+    {
+      path: '/me',
+      name: 'Me',
+      component: Me,
+      meta: {
+        Login: true,
+        Active: true,
+      },
+    },
+    {
+      path: '/day',
+      name: 'Day',
+      component: Day,
+      meta: {
+        Login: true,
+        Active: true,
+      },
+    },
     {
       path: '/test/list/:id',
       name: 'List',

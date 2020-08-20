@@ -2,7 +2,7 @@
   <div class="home">
     <header class="fixed header" @click="goAdd">
       <Header>
-        <div slot="main">TimePlay
+        <div slot="main">TimePlay 
           <span class="iconfont icon-tianjia"></span>
           <span style="font-size:13px">(点击添加)</span>
         </div>
@@ -42,15 +42,7 @@
           <span class="iconfont" :class="item.icon"></span>
         </div>
       </Boxshow>
-      <!-- <router-link to="/login">登录</router-link> -->
     </main>
-    <!-- <div>
-      <a href="/test/list/321">当前页跳转</a>
-      <a href="/test/detail/123" target="_blank">新开页面跳转</a>
-      <button @click="onClickJump">当前页跳转</button>
-      <button @click="onClickOpen">新开页面跳转</button>
-    </div> -->
-    <!-- <Footer></Footer> -->
     <Screen :visible="visible" >
       <Active :item.sync="activedata" @close="close" ref="active"></Active>
     </Screen>
@@ -66,29 +58,41 @@
       :buttons="dislog.diaBtn"
       :title="dislog.title"
     />
+    <Footer></Footer>
   </div>
 </template>
 
 <script>
 import Vue from 'vue'
+import axios from 'axios'
+import mpAdapter from 'axios-miniprogram-adapter'// 解决axios 在小程序能使用
+
+import { mapState, mapActions } from 'vuex'
 import Header from '../common/Header.vue'
-// import Footer from '../common/Footer.vue'
+import Footer from '../common/Footer.vue'
 import Boxshow from '../common/Boxshow.vue'
-// import Screen from '../common/Screen.vue'
+import Screen from '../components/Screen/index'
 import Active from '../components/active.vue'
 // import Editor from '../components/editor.vue'
 import Web from 'reduce-loader!../common/Web.vue'
 import 'reduce-loader!./web'
 import { DeleteInfo } from '../../api/dayinfo'
 import { Tip, Dialog } from '../../config/util'
-// import constant from '../../config/constant'
-import { mapState, mapActions } from 'vuex'
+import {URL,TOKEN} from '../../config/httpinfo'
+import constant from '../../config/constant'
+
+if (process.env.isMiniprogram) {
+  axios.defaults.adapter = mpAdapter
+}
 
 export default Vue.extend({
   name: 'Home',
   data() {
     return {
-      // listdata: [
+      audioAction: {
+        method: 'play'
+      },
+      listdata: [
       // {
       //   name: 'javaScript',
       //   time: 5,
@@ -107,7 +111,7 @@ export default Vue.extend({
       //   status: 'end', // 状态（3个）结束
       //   icon: 'icon-end'
       // }
-      // ],
+      ],
       activedata: {},
       visible: false, // 开始计划 显示与隐藏对话框
       editorvisible: false, // 编辑 显示与隐藏对话框
@@ -127,10 +131,10 @@ export default Vue.extend({
   },
   components: {
     Header,
-    // Footer,
+    Footer,
     Web,
     Boxshow,
-    // Screen,
+    Screen,
     Active,
     // 'Editor':() => import('../components/editor.vue')
   },
@@ -139,12 +143,13 @@ export default Vue.extend({
     loaderWiew() {
       return () => import('../components/editor.vue')
     },
-    ...mapState({
-      listdata: state => state.home.listData,
-    })
+    // ...mapState({
+    //   listdata: state => state.home.listData,
+    //   headerTips: state => state.headerTips
+    // })
   },
   created() {
-    window.addEventListener('wxload', query => console.log('page1 wxload', query))
+    window.addEventListener('wxload', query => {})
     window.addEventListener('wxshow', () => console.log('page1 wxshow'))
     window.addEventListener('wxready', () => console.log('page1 wxready'))
     window.addEventListener('wxhide', () => console.log('page1 wxhide'))
@@ -155,18 +160,14 @@ export default Vue.extend({
     } else {
       console.log('I am in Web')
     }
-    // this.getData()
-    this.getListdata()
+    // if (process.env.isMiniprogram) {
+    //   axios.defaults.adapter = mpAdapter
+    // }
+    // this.getListdata()
+    this.getData()
   },
   methods: {
     ...mapActions('home', ['getListdata']),
-    onClickJump() {
-      // window.location.href = '/test/list/123'
-      window.open('/test/detail/123')
-    },
-    onClickOpen() {
-      window.open('/test/detail/123')
-    },
     onGo(item) {
       if (item.status === 2) return false
       this.show()
@@ -182,30 +183,50 @@ export default Vue.extend({
       this.editorvisible = value
     },
     goAdd() {
-      window.location.href = '/add'
+      this.$router.push({ path: '/add' })
     },
-    // formatdata(data) {
-    //   const table = []
-    //   data.forEach((item) => {
-    //     const tableitem = {
-    //       name: item.dayInfo_name,
-    //       time: item.dayInfo_time,
-    //       icon: `icon-${constant.status[item.status]}`,
-    //       status: constant.status[item.status],
-    //       ...item
-    //     }
-    //     table.push(tableitem)
-    //   })
-    //   return table
-    // },
-    // async getData() {
-    //   try {
-    //     const { data: { data } } = await GetDayInfo()
-    //     this.listdata = this.formatdata(data)
-    //   } catch (err) {
-    //     console.log(err)
-    //   }
-    // },
+    formatdata(data) {
+      const table = []
+      data.forEach((item) => {
+        const tableitem = {
+          name: item.dayInfo_name,
+          time: item.dayInfo_time,
+          icon: `icon-${constant.status[item.status]}`,
+          status: constant.status[item.status],
+          ...item
+        }
+        table.push(tableitem)
+      })
+      return table
+    },
+    async getData() {
+      const That = this
+      axios({
+        url: `${URL}/api/dayinfo/list`,
+        auth: {
+          username: TOKEN
+        }
+      }).then((res) => {
+        const {data: {data}} = res
+        That.listdata = That.formatdata(data)
+      }).catch((err) => {
+        console.log(err)
+      })
+      // try {
+      //   const { data: { data } } = await GetDayInfo()
+      //   if (process.env.isMiniprogram) {
+      //     this.setData({
+      //       listdata:this.formatdata(data)
+      //     })
+      //   } else {
+      //     this.listdata = this.formatdata(data)
+      //   }
+      //   this.listdata = this.formatdata(data)
+      // } catch (err) {
+      //   console.log(err)
+      // }
+    },
+
     onEditor(value) {
       this.loaderWiew().then(() => {
         // 动态加载组件

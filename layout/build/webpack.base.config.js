@@ -36,7 +36,9 @@ module.exports = {
               preserveWhitespace: false,
             },
           },
-        }],
+        },
+        'vue-improve-loader',
+        ],
       },
       // ts
       {

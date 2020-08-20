@@ -7,36 +7,57 @@ module.exports = {
     entry: '/',
     router: {
         home: [
-            '/(home|index)?',
-            '/index.html',
-            '/test/(home|index)',
+          '/home',
         ],
-        other: [
-            '/test/list/:id',
-            '/test/detail/:id',
+        // day : [
+        //   '/day',
+        // ],
+        me : [
+          '/me',
+        ],
+        add : [
+          '/add',
         ],
     },
     redirect: {
         notFound: 'home',
         accessDenied: 'home',
     },
-    generate: {
-        autoBuildNpm: 'npm',
-    },
+    // generate: {
+    //     autoBuildNpm: 'yarn',
+    //     tabBar: {
+    //       color: '#000000',
+    //       selectedColor: '#07c160',
+    //       backgroundColor: '#ffffff',
+    //       list: [{
+    //           pageName: 'home',
+    //           text: '主页',
+    //           iconPath: path.resolve(__dirname, '../src/img/home.png'),
+    //           selectedIconPath: path.resolve(__dirname, '../src/img/home-sel.png'),
+    //       }, {
+    //           pageName: 'me',
+    //           text: '个人页',
+    //           iconPath: path.resolve(__dirname, '../src/img/profile.png'),
+    //           selectedIconPath: path.resolve(__dirname, '../src/img/profile-sel.png'),
+    //       }],
+    //       // 使用自定义 tabBar
+    //       // custom: path.join(__dirname, '../src/common/Footer.vue'),
+    //    },
+    // },
     app: {
         backgroundTextStyle: 'dark',
         navigationBarTextStyle: 'white',
-        navigationBarTitleText: 'kbone',
+        // navigationBarTitleText: 'kbone',
+        // navigationStyle: "custom"
     },
-	appExtraConfig: {
-        sitemapLocation: 'sitemap.json',
-	},
+    appExtraConfig: {
+      sitemapLocation: 'sitemap.json',
+    },
     global: {
-        share: true,
-        windowScroll: false,
-        backgroundColor: '#F7F7F7',
+      share: true,
+      windowScroll: false,
+      backgroundColor: '#F7F7F7',
     },
-    pages: {},
     optimization: {
 		domSubTreeLevel: 10,
 

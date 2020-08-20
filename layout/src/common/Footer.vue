@@ -29,11 +29,11 @@ export default {
           icon: 'icon-home',
           router: '/'
         },
-        {
-          text: '状况',
-          icon: 'icon-time',
-          router: '/day'
-        },
+        // {
+        //   text: '状况',
+        //   icon: 'icon-time',
+        //   router: '/day'
+        // },
         {
           text: '我的',
           icon: 'icon-me',
@@ -53,6 +53,7 @@ export default {
       this.active = value.router
       // window.location.href = value.router
       this.$router.push({ path: value.router })
+      // window.open(value.router)
       //  window.open(value.router)
       return true
     }

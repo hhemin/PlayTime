@@ -12,6 +12,7 @@ if (process.env.isMiniprogram) {
   server.defaults.adapter = mpAdapter
 }
 
+// import server from './http'
 // 添加请求拦截器
 server.interceptors.request.use((config) => {
   // 在发送请求之前做些什么
@@ -32,4 +33,39 @@ server.interceptors.response.use((response) => {
   return Promise.reject(error);
 });
 
-export default server;
+
+async function getFn({url='',token = true} = {}) {
+  try {
+    let auth = token? {
+      username:localStorage.getItem('token')
+    }:''
+    return await server({
+      method: 'get',
+      url,
+      auth
+    }) 
+  } catch(err) {
+    throw err
+  }
+}
+
+async function postFn({url='',token = true,data = ''} ={}) {
+  try {
+    let auth = token? {
+      username:localStorage.getItem('token')
+    }:''
+    return await server({
+      method: 'post',
+      url,
+      auth,
+      data
+    })
+  }catch(err) {
+    throw err
+  }
+}
+
+export {
+  getFn,
+  postFn
+}

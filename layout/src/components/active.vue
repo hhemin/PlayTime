@@ -28,13 +28,14 @@
 /**
  * @name 运行状态计划
  * */
+import Vue from 'vue'
 import { UpdataStatus } from '../../api/dayinfo'
 import { GetTime } from '../static/js/getTime'
 import constant from '../../config/constant'
 import music from './music.vue'
 import { mapActions } from 'vuex'
 
-export default {
+export default Vue.extend({
   name: 'active',
   props: {
     item: {
@@ -128,7 +129,7 @@ export default {
       return !this.showbtnA
     }
   }
-}
+})
 </script>
 
 <style lang="less">

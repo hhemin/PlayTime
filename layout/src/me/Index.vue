@@ -21,17 +21,20 @@
           <div slot="title" style="flex:1;font-size: 13px;" @click="go(item)">{{item.name}}</div>
       </KCell>
     </KCells>
+    <Footer></Footer>
   </div>
 </template>
 
 <script>
+import Footer from '../common/Footer.vue'
+
 export default {
   name: 'me',
   data() {
     return {
       src: '',
       usresrc: 'http://cdn.hmepay.cn/TimePlay/info.png',
-      // id: '1231231231',
+      id: '1231231231',
       list: [
         {
           name: '微信绑定',
@@ -47,6 +50,9 @@ export default {
         }
       ]
     }
+  },
+  components: {
+    Footer
   },
   created() {
     const imgvalue = ['fdl.jpg', 'fdp.jpg', 'fgz.jpg']

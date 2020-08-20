@@ -37,10 +37,18 @@
 
 <script>
 import Vue from 'vue'
+import axios from 'axios'
+import mpAdapter from 'axios-miniprogram-adapter'// 解决axios 在小程序能使用
+
 import Header from '@/common/Header.vue'
 import { Tip } from '../../config/util'
 import { AddDayInfo } from '../../api/dayinfo'
 import constant from '../../config/constant'
+import {URL,TOKEN} from '../../config/httpinfo'
+
+if (process.env.isMiniprogram) {
+  axios.defaults.adapter = mpAdapter
+}
 
 export default Vue.extend({
   name: 'add',
@@ -104,40 +112,48 @@ export default Vue.extend({
         每周: () => 3,
         每月: () => 4,
       }
-      // let datavalue  = {
-      //   dayInfo_name: this.name,
-      //   dayInfo_repeat: repeatValue[this.timeactive](),
-      //   dayInfo_time: this.min+this.hour*60,
-      // }
-      // axios({
-      //   method: 'post',
-      //   url: 'http://localhost:3000/api/dayinfo/add',
-      //   data: data,
-      //   auth: {
-      //     username: localStorage.getItem('token')
-      //   }
-      // }).then((res) => {
-      //   console.log(res)
-      // }).catch((err) => {
-      //  console.log(err.response)
-      // })
-      try {
-        const data = await AddDayInfo({
+      
+      await axios({
+        method: 'post',
+        url: `${URL}/api/dayinfo/add`,
+        data: {
           dayInfo_name: this.name,
           dayInfo_repeat: repeatValue[this.timeactive](),
           dayInfo_time: `${this.hour}:${this.min}:00`,
           dayInfo_hour: this.hour,
           dayInfo_minute: this.min
-        })
-        this.tip = {
-          ...new Tip(data.data.msg || 'success', 'success').show()
+        },
+        auth: {
+          username: TOKEN
         }
-      } catch (err) {
+      }).then((res) => {
+        console.log(res)
         this.tip = {
+          ...new Tip(res.data.msg || 'success', 'success').show()
+        }
+      }).catch((err) => {
+       console.log(err)
+       this.tip = {
           ...new Tip(err.response.data.msg || '错误', 'error').show()
         }
-      }
-      return true
+      })
+      // try {
+      //   const data = await AddDayInfo({
+      //     dayInfo_name: this.name,
+      //     dayInfo_repeat: repeatValue[this.timeactive](),
+      //     dayInfo_time: `${this.hour}:${this.min}:00`,
+      //     dayInfo_hour: this.hour,
+      //     dayInfo_minute: this.min
+      //   })
+      //   this.tip = {
+      //     ...new Tip(data.data.msg || 'success', 'success').show()
+      //   }
+      // } catch (err) {
+      //   this.tip = {
+      //     ...new Tip(err.response.data.msg || '错误', 'error').show()
+      //   }
+      // }
+      // return true
     }
   }
 })

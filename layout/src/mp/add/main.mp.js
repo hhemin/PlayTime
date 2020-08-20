@@ -4,7 +4,7 @@ import { sync } from 'vuex-router-sync'
 import App from '../../App.vue'
 import store from '../../store'
 import Home from '../../home/Index.vue'
-import Me from '../../me/Index.vue'
+// import Me from '../../me/Index.vue'
 import Add from '../../add/Index.vue'
 // import Menu from '../../components/menu/Index.vue'
 
@@ -19,10 +19,6 @@ const router = new Router(
       path: '/',
       name: 'Home',
       component: Home,
-    },{
-      path: '/me',
-      name: 'Me',
-      component: Me
     },{
       path: '/add',
       name: 'Add',

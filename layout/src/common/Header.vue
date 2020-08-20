@@ -24,11 +24,12 @@ export default {
   },
   methods: {
     Back() {
-      if (process.env.isMiniprogram) {
-        wx.navigateBack()
-      } else {
-        window.history.go(-1)
-      }
+      this.$router.go(-1)
+      // if (process.env.isMiniprogram) {
+      //   wx.navigateBack()
+      // } else {
+      //   window.history.go(-1)
+      // }
     }
   }
 }

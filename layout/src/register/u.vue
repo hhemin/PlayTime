@@ -9,10 +9,10 @@
       <KButton
       style="width:100%;max-width:360px;margin-top:20px"
       @click="onCancel">取消</KButton>
-    </div>
-    <KToptips v-model="tip.show" :type="tip.type" :duration="1000">
+      <KToptips v-model="tip.show" :type="tip.type" :duration="1000">
         {{tip.text}}
       </KToptips>
+    </div>
   </div>
 </template>
 
@@ -26,6 +26,7 @@ import { Tip } from '../../config/util'
 if (process.env.isMiniprogram) {
   axios.defaults.adapter = mpAdapter
 }
+
 export default {
   name: 'register',
   data() {
@@ -43,29 +44,50 @@ export default {
   },
   methods: {
     onRegister() {
+      // axios({
+      //   method:'POST',
+      //   url: `${URL}/api/users/login`,
+      //   data: {
+      //     username: this.form.username,
+      //     password: this.form.username
+      //   }
+      // }).then((res) => {
+      //   let { data } = res
+      //   console.log(res)
+      //   if(res.code === 201) {
+      //     return this.tip = {
+      //       ...new Tip(data.msg || '', 'success').show()
+      //     }
+      //   }
+      //   this.tip = {
+      //     ...new Tip(data.msg || '错误', 'error').show()
+      //   }
+      // }).catch((res) => {
+      //   this.tip = {
+      //     ...new Tip(res.data.msg || '错误', 'error').show()
+      //   }
+      //   console.log(res)
+      // })
       axios({
         method:'POST',
-        url: `${URL}/api/users/register`,
+        url: `${URL}/api/users/login`,
         data: {
           username: this.form.username,
-          password: this.form.username
+          password: this.form.password
         }
       }).then((res) => {
-        let { data } = res
         console.log(res)
-        if(res.code === 201) {
-          return this.tip = {
-            ...new Tip(data.msg || '', 'success').show()
-          }
-        }
+        const { data } = res
         this.tip = {
-          ...new Tip(data.msg || '错误', 'error').show()
+          ...new Tip(data.msg || '', 'success').show()
         }
-      }).catch((res) => {
+        localStorage.setItem('token', data.data)
+        this.$router.push('/')
+      }).catch((err) => {
+        console.log(err)
         this.tip = {
-          ...new Tip(res.data.msg || '错误', 'error').show()
+          ...new Tip(err.response.data.msg || '错误', 'error').show()
         }
-        console.log(res)
       })
     },
     onCancel() {

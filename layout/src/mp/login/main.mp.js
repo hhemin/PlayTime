@@ -4,6 +4,8 @@ import { sync } from 'vuex-router-sync'
 import App from '../../App.vue'
 import store from '../../store'
 import Login from '../../login/Index.vue'
+import Home from '../../home/Index.vue'
+import Register from '../../register/Index.vue'
 
 Vue.use(Router)
 
@@ -14,6 +16,14 @@ const router = new Router(
       path: '/login',
       name: 'Login',
       component: Login,
+    },{
+      path: '/',
+      name: 'Home',
+      component: Home,
+    },{
+      path: '/register',
+      name: 'Register',
+      component: Register,
     }],
   }
 )

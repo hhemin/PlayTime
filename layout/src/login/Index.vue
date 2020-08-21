@@ -3,7 +3,7 @@
     <div class="formmian" :model="form">
       <div class="df inputitem">账号<input type="text" v-model="form.username"/></div>
       <div class="df inputitem">密码<input type="password" v-model="form.password"/></div>
-      <a href="/register" class="c-blue" style="font-size:13px;">注册账号</a>
+      <a class="c-blue" style="font-size:13px;" @click="goRegister">注册账号</a>
       <KButton type="primary"
       style="width:100%;max-width:360px;margin-top:20px"
       @click="onlogin">登录</KButton>
@@ -15,9 +15,16 @@
 </template>
 
 <script>
+import axios from 'axios'
+import mpAdapter from 'axios-miniprogram-adapter'// 解决axios 在小程序能使用
+
 import { GetToken } from '../../api/users'
 import { Tip } from '../../config/util'
+import {URL,TOKEN} from '../../config/httpinfo'
 
+if (process.env.isMiniprogram) {
+  axios.defaults.adapter = mpAdapter
+}
 export default {
   name: 'login',
   data() {
@@ -34,23 +41,49 @@ export default {
     }
   },
   methods: {
-    async onlogin() {
-      try {
-        const { data } = await GetToken({
+    // async onlogin() {
+    //   try {
+    //     const { data } = await GetToken({
+    //       username: this.form.username,
+    //       password: this.form.password
+    //     })
+    //     this.tip = {
+    //       ...new Tip(data.msg || '', 'success').show()
+    //     }
+    //     localStorage.setItem('token', data.data)
+    //     this.$router.push('/')
+    //   } catch (err) {
+    //     // console.log(err)
+    //     this.tip = {
+    //       ...new Tip(err.response.data.msg || '错误', 'error').show()
+    //     }
+    //   }
+    // }
+    onlogin() {
+      axios({
+        method:'POST',
+        url: `${URL}/api/users/login`,
+        data: {
           username: this.form.username,
           password: this.form.password
-        })
+        }
+      }).then((res) => {
+        console.log(res)
+        const { data } = res
         this.tip = {
           ...new Tip(data.msg || '', 'success').show()
         }
         localStorage.setItem('token', data.data)
         this.$router.push('/')
-      } catch (err) {
-        // console.log(err)
+      }).catch((err) => {
+        console.log(err)
         this.tip = {
           ...new Tip(err.response.data.msg || '错误', 'error').show()
         }
-      }
+      })
+    },
+    goRegister() {
+      this.$router.push('/register')
     }
   }
 }
@@ -75,6 +108,7 @@ export default {
       padding: 10px;
       display: block;
       flex: 1;
+      border:1px solid black;
     }
   }
 }

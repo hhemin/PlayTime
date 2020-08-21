@@ -3,22 +3,18 @@ import Router from 'vue-router'
 import { sync } from 'vuex-router-sync'
 import App from '../../App.vue'
 import store from '../../store'
-import Me from '../../me/Index.vue'
-// import Login from '../../login/Index.vue'
+import Register from '../../register/Index.vue'
 
 Vue.use(Router)
 
-const router = new Router(
-  {
-    mode: 'history',
-    routes: [{
-      path: '/me',
-      name: 'Me',
-      component: Me,
-    }],
-  }
-)
-
+const router = new Router({
+  mode: 'history',
+  routes: [{
+    path: '/register',
+    name: 'Register',
+    component: Register,
+  }],
+})
 
 export default function createApp() {
   const container = document.createElement('div')

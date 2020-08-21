@@ -23,6 +23,7 @@ module.exports = {
     day: path.resolve(__dirname, '../src/mp/day/main.mp.js'),
     login: path.resolve(__dirname, '../src/mp/login/main.mp.js'),
     add: path.resolve(__dirname, '../src/mp/add/main.mp.js'),
+    register: path.resolve(__dirname, '../src/mp/register/main.mp.js')
   },
   output: {
     path: path.resolve(__dirname, '../dist/mp/common'), // 放到小程序代码目录中的 common 目录下

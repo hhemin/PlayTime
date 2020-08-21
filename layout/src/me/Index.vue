@@ -47,6 +47,10 @@ export default {
         {
           name: '关于我们',
           router: ''
+        },
+        {
+          name: '登录',
+          router: '/login'
         }
       ]
     }
@@ -60,7 +64,8 @@ export default {
   },
   methods: {
     go(value) {
-      console.log(value)
+      this.$router.push({ path: value.router })
+      // console.log(value)
     }
   }
 }

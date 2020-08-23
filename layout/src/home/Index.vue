@@ -2,7 +2,7 @@
   <div class="home">
     <header class="fixed header" @click="goAdd">
       <Header>
-        <div slot="main">TimePlay 
+        <div slot="main">TimePlay
           <span class="iconfont icon-tianjia"></span>
           <span style="font-size:13px">(点击添加)</span>
         </div>
@@ -92,7 +92,7 @@ export default Vue.extend({
       audioAction: {
         method: 'play'
       },
-      listdata: [
+      // listdata: [
       // {
       //   name: 'javaScript',
       //   time: 5,
@@ -111,7 +111,7 @@ export default Vue.extend({
       //   status: 'end', // 状态（3个）结束
       //   icon: 'icon-end'
       // }
-      ],
+      // ],
       activedata: {},
       visible: false, // 开始计划 显示与隐藏对话框
       editorvisible: false, // 编辑 显示与隐藏对话框
@@ -143,10 +143,10 @@ export default Vue.extend({
     loaderWiew() {
       return () => import('../components/editor.vue')
     },
-    // ...mapState({
-    //   listdata: state => state.home.listData,
-    //   headerTips: state => state.headerTips
-    // })
+    ...mapState({
+      listdata: state => state.home.listData,
+      headerTips: state => state.headerTips
+    })
   },
   created() {
     window.addEventListener('wxload', query => {})
@@ -163,11 +163,15 @@ export default Vue.extend({
     // if (process.env.isMiniprogram) {
     //   axios.defaults.adapter = mpAdapter
     // }
-    // this.getListdata()
-    this.getData()
+    this.getListdata()
+    // this.setListData()
+    // this.getData()
   },
   methods: {
-    ...mapActions('home', ['getListdata']),
+    // ...mapActions('home', ['getListdata']),
+    ...mapActions({
+      getListdata:'home/getListdata'
+    }),
     onGo(item) {
       if (item.status === 2) return false
       this.show()
@@ -185,68 +189,88 @@ export default Vue.extend({
     goAdd() {
       this.$router.push({ path: '/add' })
     },
-    formatdata(data) {
-      const table = []
-      data.forEach((item) => {
-        const tableitem = {
-          name: item.dayInfo_name,
-          time: item.dayInfo_time,
-          icon: `icon-${constant.status[item.status]}`,
-          status: constant.status[item.status],
-          ...item
-        }
-        table.push(tableitem)
-      })
-      return table
-    },
-    async getData() {
-      const That = this
-      axios({
-        url: `${URL}/api/dayinfo/list`,
-        auth: {
-          username: TOKEN
-        }
-      }).then((res) => {
-        const {data: {data}} = res
-        That.listdata = That.formatdata(data)
-      }).catch((err) => {
-        console.log(err)
-      })
-      // try {
-      //   const { data: { data } } = await GetDayInfo()
-      //   if (process.env.isMiniprogram) {
-      //     this.setData({
-      //       listdata:this.formatdata(data)
-      //     })
-      //   } else {
-      //     this.listdata = this.formatdata(data)
-      //   }
-      //   this.listdata = this.formatdata(data)
-      // } catch (err) {
-      //   console.log(err)
-      // }
-    },
-
+    // formatdata(data) {
+    //   const table = []
+    //   data.forEach((item) => {
+    //     const tableitem = {
+    //       name: item.dayInfo_name,
+    //       time: item.dayInfo_time,
+    //       icon: `icon-${constant.status[item.status]}`,
+    //       status: constant.status[item.status],
+    //       ...item
+    //     }
+    //     table.push(tableitem)
+    //   })
+    //   return table
+    // },
+    // getData() {
+    //   const That = this
+    //   axios({
+    //     url: `${URL}/api/dayinfo/list`,
+    //     auth: {
+    //       username: TOKEN
+    //     }
+    //   }).then((res) => {
+    //     console.log(res)
+    //     const {data: {data}} = res
+    //     That.listdata = That.formatdata(data)
+    //   }).catch((err) => {
+    //     console.log(err)
+    //   })
+    //   // try {
+    //   //   const { data: { data } } = await GetDayInfo()
+    //   //   if (process.env.isMiniprogram) {
+    //   //     this.setData({
+    //   //       listdata:this.formatdata(data)
+    //   //     })
+    //   //   } else {
+    //   //     this.listdata = this.formatdata(data)
+    //   //   }
+    //   //   this.listdata = this.formatdata(data)
+    //   // } catch (err) {
+    //   //   console.log(err)
+    //   // }
+    // },
+    // 编辑
     onEditor(value) {
-      this.loaderWiew().then(() => {
-        // 动态加载组件
-        this.Editor = () => this.loaderWiew()
-      })
+      // this.loaderWiew().then(() => {
+      //   // 动态加载组件
+      //   this.Editor = () => this.loaderWiew()
+      // })
       // .catch(() => {
       // 组件不存在时处理
       // this.renderView = () => import("@/components/EmptyView.vue");
       // })
-      this.editordata = value
-      this.editorvisible = true
+      // this.editordata = value
+      // this.editorvisible = true
       console.log(value)
+      
     },
-    async onDeleteData(id) {
-      await DeleteInfo({
-        dayInfo_id: id
+    onDeleteData(id) {
+      axios({
+        method: 'POST',
+        url:`${URL}/api/dayinfo/delete`,
+        data: {
+          dayInfo_id: id
+        },
+        auth: {
+          username: TOKEN
+        }
+      }).then(()=> {
+        this.tip = {
+          ...new Tip('删除记录计划成功', 'success').show()
+        }
+      }).catch(() => {
+        this.tip = {
+          ...new Tip('删除失败', 'error').show()
+        }
       })
-      this.tip = {
-        ...new Tip('删除记录计划成功', 'success').show()
-      }
+      // await DeleteInfo({
+      //   dayInfo_id: id
+      // })
+      // this.tip = {
+      //   ...new Tip('删除记录计划成功', 'success').show()
+      // }
       // this.getData()
       this.getListdata()
     },

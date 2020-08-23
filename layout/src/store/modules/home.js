@@ -1,54 +1,62 @@
+import axios from 'axios'
+import mpAdapter from 'axios-miniprogram-adapter'// 解决axios 在小程序能使用
+import {URL,TOKEN} from '../../../config/httpinfo'
+
 import { GetDayInfo } from '../../../api/dayinfo'
 import constant from '../../../config/constant'
 
 const state = {
-  listData: []
+  listData: [],
 }
 
 const actions = {
   async getListdata({ commit }) {
-    const { data: { data } } = await GetDayInfo()
-    const table = []
-    console.log('vuex actice')
-    data.forEach((item) => {
-      const tableitem = {
-        name: item.dayInfo_name,
-        time: item.dayInfo_time,
-        icon: `icon-${constant.status[item.status]}`,
-        status: constant.status[item.status],
-        ...item
+    console.log('vuex home')
+    // *** 小程序不支持
+    // const { data: { data } } = await GetDayInfo()
+    // const table = []
+    // data.forEach((item) => {
+    //   const tableitem = {
+    //     name: item.dayInfo_name,
+    //     time: item.dayInfo_time,
+    //     icon: `icon-${constant.status[item.status]}`,
+    //     status: constant.status[item.status],
+    //     ...item
+    //   }
+    //   table.push(tableitem)
+    // })
+    // commit('setListData', table)
+    axios({
+      url: `${URL}/api/dayinfo/list`,
+      auth: {
+        username: TOKEN
       }
-      table.push(tableitem)
+    }).then((res) => {
+      console.log(res)
+      const {data: {data}} = res
+      const table = []
+      data.forEach((item) => {
+        const tableitem = {
+          name: item.dayInfo_name,
+          time: item.dayInfo_time,
+          icon: `icon-${constant.status[item.status]}`,
+          status: constant.status[item.status],
+          ...item
+        }
+        table.push(tableitem)
+      })
+      commit('setListData', table)
+    }).catch((err) => {
+      console.log(err)
     })
-    table.push({
-      createtime: "2020-08-17T02:35:49.000Z",
-      dayInfo_hour: 0,
-      dayInfo_id: 40,
-      dayInfo_minute: 4,
-      name: "哇啦啦啦",
-      dayInfo_repeat: 1,
-      dayInfo_start: null,
-      time: "00:04:00",
-      delettime: null,
-      f_uptime: "2020-08-17T02:35:49.000Z",
-      finishtime: "00:00:02",
-      status: 1,
-      uid: 1,
-      status: constant.status[1],
-      updatetime: null,
-      icon: 'icon-'+constant.status[1]
-    })
-    console.log('1231231231231')
-    console.log(table)
-    console.log('>>>>>>>>')
-    commit('setListData', table)
-  }
+  },
 }
 
 const mutations = {
   setListData(statedata, data) {
+    console.log('vuex editor')
     statedata.listData = data
-  }
+  },
 }
 
 export default {

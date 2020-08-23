@@ -10,6 +10,7 @@ const Day = () => import(/* webpackChunkName: "Day" */'@/day/Index.vue')
 const Login = () => import(/* webpackChunkName: "Login" */'@/login/Index.vue')
 const Me = () => import(/* webpackChunkName: "Me" */'@/me/Index.vue')
 const Register = () => import(/* webpackChunkName: "Register" */'@/register/Index.vue')
+const Editor = () => import(/* webpackChunkName: "Register" */'@/editor/Index.vue')
 Vue.use(Router)
 
 const router = new Router({
@@ -126,6 +127,13 @@ const router = new Router({
       component: Register,
       meta: {
         Active: true,
+      }
+    }, {
+      path: '/editor',
+      name: 'Editor',
+      component: Editor,
+      meta: {
+        Login: true,
       }
     }
   ],

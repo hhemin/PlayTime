@@ -1,7 +1,6 @@
 import axios from 'axios';
 import mpAdapter from 'axios-miniprogram-adapter';// 解决axios 在小程序能使用
-
-const URL  = process.env.NODE_ENV == 'development' ? 'http://192.168.0.107:3000' :'http://192.168.0.107:3000'
+import { URL } from './httpinfo'
 
 const server = axios.create({
   baseURL: URL,

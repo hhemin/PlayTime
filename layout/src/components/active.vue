@@ -20,6 +20,11 @@
           </div>
         </div>
       </div>
+      <KToast
+        :type="toast.type"
+        v-model="toast.show"
+        :duration="toast.time"
+      >{{toast.title}}</KToast>
     </div>
   </div>
 </template>
@@ -29,11 +34,16 @@
  * @name 运行状态计划
  * */
 import Vue from 'vue'
+import axios from 'axios'
+import mpAdapter from 'axios-miniprogram-adapter'// 解决axios 在小程序能使用
+
 import { UpdataStatus } from '../../api/dayinfo'
 import { GetTime } from '../static/js/getTime'
 import constant from '../../config/constant'
 import music from './music.vue'
 import { mapActions } from 'vuex'
+import { TOKEN, URL } from '../../config/httpinfo'
+import { Toast } from '../../config/util'
 
 export default Vue.extend({
   name: 'active',
@@ -49,7 +59,13 @@ export default Vue.extend({
     return {
       lasttime: '时间开始',
       showbtnA: true,
-      showend: false// 结束提示 true，暂停 false
+      showend: false,// 结束提示 true，暂停 false
+      toast: {
+        type:'success',
+        title: '',
+        show: false,
+        time: 2000
+      }
     }
   },
   watch: {
@@ -90,34 +106,59 @@ export default Vue.extend({
       switch (changestatus) {
         case constant.status[1]:
           this.item.status = 1
-          this.item.icon = `icon-${status[this.item.status]}`
+          this.item.icon = `icon-${constant.status[1]}`
           break
         case constant.status[2]:
           this.item.status = 2
-          this.item.icon = `icon-${status[this.item.status]}`
+          this.item.icon = `icon-${constant.status[2]}`
           break
         default:
           throw new Error('没这个参数呀')
       }
     },
     // 暂停
-    async stoptime({ statusvalue = 1 } = {}) {
+    stoptime({ statusvalue = 1 } = {}) {
       if (statusvalue === 1) {
         this.$refs.music.stop()
       }
-      this.showbtnA = false
-      this.changeicon(constant.status[statusvalue])
       GetTime.stopTime()
+      console.log(constant.status)
+      this.changeicon(constant.status[statusvalue])// 放在GetTime.stopTime() 前面会导致小程序无法继续暂停
       const v = {
         dayInfo_id: this.item.dayInfo_id,
         finishtime: this.lasttime, // 剩下时间
         status: statusvalue, // 暂停设置1
       }
-      try {
-        await UpdataStatus(v)
-      } catch (err) {
-        console.log(err)
-      }
+      this.toast = Toast.show({
+        type: 'loading',
+        title: '暂停中'
+      })
+      axios({
+        method: 'POST',
+        url: URL+'/api/dayinfo/updataStatus',
+        data: v,
+        auth: {
+          username: TOKEN
+        }
+      }).then((res)=> {
+        const That = this
+        const time = 2000
+        this.toast = Toast.show({
+          title: '操作成功',
+          time
+        })
+        // this.$set(this.toast,'time',time)// 无法触发
+        setTimeout(()=> {
+          That.toast = Toast.hide()
+        },2000)
+      })
+      this.showbtnA = false
+      // try {
+      //   await UpdataStatus(v)
+      // } catch (err) {
+      //   console.log(err)
+      // }
+      
     },
     onkeep() {
       this.runtime(this.lasttime)

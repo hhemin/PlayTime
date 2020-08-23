@@ -33,7 +33,24 @@ class Dialog {
   }
 }
 
+class Toast {
+  static show({title,time = 0,type = 'success',show = true} = {}) {
+    return {
+      title,
+      show,
+      type,
+      time
+    }
+  }
+  static hide() {
+    return {
+      show: false,
+    }
+  }
+}
+
 export {
   Tip,
-  Dialog
+  Dialog,
+  Toast
 }

@@ -12,7 +12,7 @@ const modules = modulesFiles.keys().reduce((modulesvalue, modulePath) => {
   modulesvalue[moduleName] = value.default
   return modulesvalue
 }, {})
-// console.log(M)
+console.log(modules)
 
 export default new Vuex.Store({
   state: {

@@ -63,12 +63,13 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import { Tip, Dialog } from '../../config/util'
 import constant from '../../config/constant'
 import { UpdateInfo, DeleteInfo } from '../../api/dayinfo'
 import { mapActions } from 'vuex'
 
-export default {
+export default Vue.extend({
   props: {
     item: {
       type: Object
@@ -207,7 +208,7 @@ export default {
       return v
     },
   }
-}
+})
 </script>
 
 <style lang="less">

@@ -8,6 +8,7 @@ import Me from '../../me/Index.vue'
 import Add from '../../add/Index.vue'
 import Login from '../../login/Index.vue'
 import Register from '../../register/Index.vue'
+import Editor from '../../editor/Index.vue'
 // import Menu from '../../components/menu/Index.vue'
 
 Vue.use(Router)
@@ -37,6 +38,10 @@ const router = new Router(
       path: '/register',
       name: 'Register',
       component: Register
+    },{
+      path: '/editor',
+      name: 'Editor',
+      component: Editor
     }],
   }
 )

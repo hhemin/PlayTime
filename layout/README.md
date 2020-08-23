@@ -87,7 +87,7 @@ MIT
 通过倒计时来控制播放
 
 ## 适配日志
-1、
+1、网络请求
 axios在小程序用不了要通过 ‘axios-miniprogram-adapter’来适配兼容
 ```
 if (process.env.isMiniprogram) {
@@ -95,6 +95,8 @@ if (process.env.isMiniprogram) {
 }
 ```
 同时网络axios请求要写在当vue文件里面，本人尝试通过vuex数据请求成功，小程序页面无法更新;axios封装也无法给小程序页面数据data更新（个人的的发现，不知道其他方法如何）
+2、异步组件问题
+由于kbone不支持异步组件开发，所以编辑页面原来是异步组件，现在拆分为多一个页面开发
 
 
 

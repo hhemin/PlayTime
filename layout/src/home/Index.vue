@@ -139,13 +139,12 @@ export default Vue.extend({
     // 'Editor':() => import('../components/editor.vue')
   },
   computed: {
-    // 通过计算属性动态引入组件
-    loaderWiew() {
-      return () => import('../components/editor.vue')
-    },
+    // 通过计算属性动态引入组件 （kbone 不支持）
+    // loaderWiew() {
+    //   return () => import('../components/editor.vue')
+    // },
     ...mapState({
       listdata: state => state.home.listData,
-      headerTips: state => state.headerTips
     })
   },
   created() {
@@ -170,7 +169,8 @@ export default Vue.extend({
   methods: {
     // ...mapActions('home', ['getListdata']),
     ...mapActions({
-      getListdata:'home/getListdata'
+      getListdata:'home/getListdata',
+      setFormData:'editor/setFormData'
     }),
     onGo(item) {
       if (item.status === 2) return false
@@ -233,18 +233,25 @@ export default Vue.extend({
     // },
     // 编辑
     onEditor(value) {
-      // this.loaderWiew().then(() => {
-      //   // 动态加载组件
-      //   this.Editor = () => this.loaderWiew()
-      // })
-      // .catch(() => {
-      // 组件不存在时处理
-      // this.renderView = () => import("@/components/EmptyView.vue");
-      // })
-      // this.editordata = value
-      // this.editorvisible = true
+      /**
+       * kbone 不支持
+        this.loaderWiew().then(() => {
+          // 动态加载组件
+          this.Editor = () => this.loaderWiew()
+        })
+        .catch(() => {
+        // 组件不存在时处理
+        this.renderView = () => import("@/components/EmptyView.vue");
+        })
+        this.editordata = value
+        this.editorvisible = true
+       */
+      this.setFormData(value)
+      this.$router.push({
+        name: 'Editor',
+        params: value
+      })
       console.log(value)
-      
     },
     onDeleteData(id) {
       axios({

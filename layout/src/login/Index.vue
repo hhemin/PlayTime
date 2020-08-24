@@ -18,9 +18,9 @@
 import axios from 'axios'
 import mpAdapter from 'axios-miniprogram-adapter'// 解决axios 在小程序能使用
 
-import { GetToken } from '../../api/users'
+// import { GetToken } from '../../api/users'
 import { Tip } from '../../config/util'
-import {URL,TOKEN} from '../../config/httpinfo'
+import { URL } from '../../config/httpinfo'
 
 if (process.env.isMiniprogram) {
   axios.defaults.adapter = mpAdapter
@@ -61,7 +61,7 @@ export default {
     // }
     onlogin() {
       axios({
-        method:'POST',
+        method: 'POST',
         url: `${URL}/api/users/login`,
         data: {
           username: this.form.username,

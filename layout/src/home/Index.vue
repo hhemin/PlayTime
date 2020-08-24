@@ -76,10 +76,10 @@ import Active from '../components/active.vue'
 // import Editor from '../components/editor.vue'
 import Web from 'reduce-loader!../common/Web.vue'
 import 'reduce-loader!./web'
-import { DeleteInfo } from '../../api/dayinfo'
+// import { DeleteInfo } from '../../api/dayinfo'
 import { Tip, Dialog } from '../../config/util'
-import {URL,TOKEN} from '../../config/httpinfo'
-import constant from '../../config/constant'
+import { URL, TOKEN } from '../../config/httpinfo'
+// import constant from '../../config/constant'
 
 if (process.env.isMiniprogram) {
   axios.defaults.adapter = mpAdapter
@@ -148,17 +148,16 @@ export default Vue.extend({
     })
   },
   created() {
-    window.addEventListener('wxload', query => {})
-    window.addEventListener('wxshow', () => console.log('page1 wxshow'))
-    window.addEventListener('wxready', () => console.log('page1 wxready'))
-    window.addEventListener('wxhide', () => console.log('page1 wxhide'))
-    window.addEventListener('wxunload', () => console.log('page1 wxunload'))
-
-    if (process.env.isMiniprogram) {
-      console.log('I am in miniprogram')
-    } else {
-      console.log('I am in Web')
-    }
+    // window.addEventListener('wxload', query => {})
+    // window.addEventListener('wxshow', () => console.log('page1 wxshow'))
+    // window.addEventListener('wxready', () => console.log('page1 wxready'))
+    // window.addEventListener('wxhide', () => console.log('page1 wxhide'))
+    // window.addEventListener('wxunload', () => console.log('page1 wxunload'))
+    // if (process.env.isMiniprogram) {
+    //   console.log('I am in miniprogram')
+    // } else {
+    //   console.log('I am in Web')
+    // }
     // if (process.env.isMiniprogram) {
     //   axios.defaults.adapter = mpAdapter
     // }
@@ -169,8 +168,8 @@ export default Vue.extend({
   methods: {
     // ...mapActions('home', ['getListdata']),
     ...mapActions({
-      getListdata:'home/getListdata',
-      setFormData:'editor/setFormData'
+      getListdata: 'home/getListdata',
+      setFormData: 'editor/setFormData'
     }),
     onGo(item) {
       if (item.status === 2) return false
@@ -256,14 +255,14 @@ export default Vue.extend({
     onDeleteData(id) {
       axios({
         method: 'POST',
-        url:`${URL}/api/dayinfo/delete`,
+        url: `${URL}/api/dayinfo/delete`,
         data: {
           dayInfo_id: id
         },
         auth: {
           username: TOKEN
         }
-      }).then(()=> {
+      }).then(() => {
         this.tip = {
           ...new Tip('删除记录计划成功', 'success').show()
         }

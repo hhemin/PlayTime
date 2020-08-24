@@ -37,7 +37,6 @@ module.exports = {
             },
           },
         },
-        'vue-improve-loader',
         ],
       },
       // ts

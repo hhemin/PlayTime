@@ -42,9 +42,9 @@ import mpAdapter from 'axios-miniprogram-adapter'// 解决axios 在小程序能�
 
 import Header from '@/common/Header.vue'
 import { Tip } from '../../config/util'
-import { AddDayInfo } from '../../api/dayinfo'
+// import { AddDayInfo } from '../../api/dayinfo'
 import constant from '../../config/constant'
-import {URL,TOKEN} from '../../config/httpinfo'
+import { URL, TOKEN } from '../../config/httpinfo'
 
 if (process.env.isMiniprogram) {
   axios.defaults.adapter = mpAdapter
@@ -86,7 +86,7 @@ export default Vue.extend({
     getMin() {
       console.log(this.min)
     },
-    async putFrom() {
+    putFrom() {
       const alltime = Number(this.min) + (Number(this.hour) * 60)
       if (this.name === '') {
         this.tip = {
@@ -112,8 +112,7 @@ export default Vue.extend({
         每周: () => 3,
         每月: () => 4,
       }
-      
-      await axios({
+      return axios({
         method: 'post',
         url: `${URL}/api/dayinfo/add`,
         data: {
@@ -127,13 +126,11 @@ export default Vue.extend({
           username: TOKEN
         }
       }).then((res) => {
-        console.log(res)
         this.tip = {
           ...new Tip(res.data.msg || 'success', 'success').show()
         }
       }).catch((err) => {
-       console.log(err)
-       this.tip = {
+        this.tip = {
           ...new Tip(err.response.data.msg || '错误', 'error').show()
         }
       })

@@ -70,9 +70,9 @@ import mpAdapter from 'axios-miniprogram-adapter'// 解决axios 在小程序能�
 
 import { Tip, Dialog } from '../../config/util'
 import constant from '../../config/constant'
-import { UpdateInfo, DeleteInfo } from '../../api/dayinfo'
+// import { UpdateInfo, DeleteInfo } from '../../api/dayinfo'
 import { mapActions, mapState } from 'vuex'
-import { URL,TOKEN } from '../../config/httpinfo'
+import { URL, TOKEN } from '../../config/httpinfo'
 
 if (process.env.isMiniprogram) {
   axios.defaults.adapter = mpAdapter
@@ -111,9 +111,9 @@ export default Vue.extend({
     }
   },
   created() {
-    if(Object.keys(this.$route.params).length === 0) {
-       this.$router.push({
-        path:'/'
+    if (Object.keys(this.$route.params).length === 0) {
+      this.$router.push({
+        path: '/'
       })
     }
   },
@@ -185,14 +185,14 @@ export default Vue.extend({
         dayInfo_minute: formdata.min,
         dayInfo_id: formdata.dayInfo_id
       }
-      axios({
+      return axios({
         method: 'POST',
         data: v,
-        url:`${URL}/api/dayinfo/updatavalue`,
+        url: `${URL}/api/dayinfo/updatavalue`,
         auth: {
           username: TOKEN
         }
-      }).then((res)=> {
+      }).then((res) => {
         this.tip = {
           ...new Tip(res.data.msg, 'success').show()
         }
@@ -241,14 +241,14 @@ export default Vue.extend({
     DeleteFn() {
       axios({
         method: 'POST',
-        url:`${URL}/api/dayinfo/delete`,
+        url: `${URL}/api/dayinfo/delete`,
         data: {
           dayInfo_id: this.formitem.dayInfo_id
         },
         auth: {
           username: TOKEN
         }
-      }).then((res)=> {
+      }).then(() => {
         this.tip = {
           ...new Tip('删除记录计划成功', 'success').show()
         }
@@ -257,7 +257,9 @@ export default Vue.extend({
     },
 
     cancel() {
-      this.$router.push({ name: 'Home' }).catch(err => {err})
+      this.$router.push({
+        name: 'Home'
+      }).catch(err => err)
       // this.$emit('close', false)
       // Object.assign(this.$data, this.$options.data())
     },

@@ -20,7 +20,7 @@
 import axios from 'axios'
 import mpAdapter from 'axios-miniprogram-adapter'// 解决axios 在小程序能使用
 
-import { URL,TOKEN } from '../../config/httpinfo'
+import { URL } from '../../config/httpinfo'
 import { Tip } from '../../config/util'
 
 if (process.env.isMiniprogram) {
@@ -44,17 +44,17 @@ export default {
   methods: {
     onRegister() {
       axios({
-        method:'POST',
+        method: 'POST',
         url: `${URL}/api/users/register`,
         data: {
           username: this.form.username,
           password: this.form.username
         }
       }).then((res) => {
-        let { data } = res
+        const { data } = res
         console.log(res)
-        if(res.code === 201) {
-          return this.tip = {
+        if (res.code === 201) {
+          this.tip = {
             ...new Tip(data.msg || '', 'success').show()
           }
         }

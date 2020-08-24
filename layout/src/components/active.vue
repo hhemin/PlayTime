@@ -35,9 +35,9 @@
  * */
 import Vue from 'vue'
 import axios from 'axios'
-import mpAdapter from 'axios-miniprogram-adapter'// 解决axios 在小程序能使用
+// import mpAdapter from 'axios-miniprogram-adapter'// 解决axios 在小程序能使用
 
-import { UpdataStatus } from '../../api/dayinfo'
+// import { UpdataStatus } from '../../api/dayinfo'
 import { GetTime } from '../static/js/getTime'
 import constant from '../../config/constant'
 import music from './music.vue'
@@ -59,9 +59,9 @@ export default Vue.extend({
     return {
       lasttime: '时间开始',
       showbtnA: true,
-      showend: false,// 结束提示 true，暂停 false
+      showend: false, // 结束提示 true，暂停 false
       toast: {
-        type:'success',
+        type: 'success',
         title: '',
         show: false,
         time: 2000
@@ -135,12 +135,12 @@ export default Vue.extend({
       })
       axios({
         method: 'POST',
-        url: URL+'/api/dayinfo/updataStatus',
+        url: `${URL}/api/dayinfo/updataStatus`,
         data: v,
         auth: {
           username: TOKEN
         }
-      }).then((res)=> {
+      }).then(() => {
         const That = this
         const time = 2000
         this.toast = Toast.show({
@@ -148,9 +148,9 @@ export default Vue.extend({
           time
         })
         // this.$set(this.toast,'time',time)// 无法触发
-        setTimeout(()=> {
+        setTimeout(() => {
           That.toast = Toast.hide()
-        },2000)
+        }, 2000)
       })
       this.showbtnA = false
       // try {
@@ -158,7 +158,6 @@ export default Vue.extend({
       // } catch (err) {
       //   console.log(err)
       // }
-      
     },
     onkeep() {
       this.runtime(this.lasttime)

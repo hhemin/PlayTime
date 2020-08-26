@@ -1,6 +1,9 @@
 # PlayTime
 时间管理工具
 
+## 技术
+koa + mysql + [kbone](https://wechat-miniprogram.github.io/kbone/docs/#%E4%BB%8B%E7%BB%8D) + [kbone-ui](https://wechat-miniprogram.github.io/kbone/docs/ui/intro/quickstart.html)
+
 ## npm 包
 * validator 校验器
 

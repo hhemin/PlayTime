@@ -1,4 +1,4 @@
-# MyPlayTime
+# PlayTime
 时间管理工具
 
 ## npm 包

@@ -150,7 +150,7 @@ export default Vue.extend({
         setTimeout(() => {
           That.toast = Toast.hide()
         }, 2000)
-      }).catch((err)=> {
+      }).catch((err) => {
         this.$HttpError.getError(err)
       })
       this.showbtnA = false

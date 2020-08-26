@@ -141,14 +141,14 @@ const router = new Router({
 
 
 router.beforeEach((to, from, next) => {
-  if(to.meta.Login) {
-    if(!localStorage.getItem('token')) {
+  if (to.meta.Login) {
+    if (!localStorage.getItem('token')) {
       return router.push({
         path: '/login'
       })
     }
   }
-  next()
+  return next()
 })
 
 export default router

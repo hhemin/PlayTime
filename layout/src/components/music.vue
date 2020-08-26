@@ -18,8 +18,8 @@
 <script>
 import Vue from 'vue'
 import moment from 'moment'
-
 import WM from '../static/js/wm'
+
 let setfn = ''
 // const Audiomp = WM.obj({
 //   mpobj: wx.createInnerAudioContext()
@@ -36,7 +36,7 @@ export default Vue.extend({
     }
   },
   created() {
-    if(process.env.isMiniprogram) {
+    if (process.env.isMiniprogram) {
       this.Audiomp = wx.createInnerAudioContext()
     }
   },
@@ -49,12 +49,12 @@ export default Vue.extend({
       const v = ((hour * 60 * 60) + (min * 60) + second) * 1000
       const audio = this.$refs.audio
       WM.fn({
-        webfn:() => {
+        webfn: () => {
           // console.log('web开始静音播放')
           audio.play()
           audio.muted = true
         },
-        mpfn:() => {
+        mpfn: () => {
           // mp 不用静音播放
           this.Audiomp.src = this.mp3
           this.Audiomp.obeyMuteSwitch = false // 即使用户打开了静音开关，也能继续发出声音
@@ -65,12 +65,12 @@ export default Vue.extend({
         // console.log('播放')
         That.show = true
         WM.fn({
-          webfn:() => {
+          webfn: () => {
             audio.currentTime = 0
             audio.muted = false
             audio.play()
           },
-          mpfn:() => {
+          mpfn: () => {
             // console.log('mp播放')
             That.Audiomp.play()
             That.Audiomp.onError((res) => {
@@ -85,13 +85,13 @@ export default Vue.extend({
       const audio = this.$refs.audio
       console.log('暂停')
       WM.fn({
-          webfn:() => {
-            audio.pause()
-          },
-          mpfn:() => {
-            this.Audiomp.stop()
-          }
-        })
+        webfn: () => {
+          audio.pause()
+        },
+        mpfn: () => {
+          this.Audiomp.stop()
+        }
+      })
       this.show = false
       clearTimeout(setfn)
       setfn = ''

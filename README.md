@@ -13,3 +13,17 @@ server 是后端接口
 
 其中里面账号admin 密码：123456*
 服务端注册账号密码不能纯数字的，账号长度要6位数以上
+
+## 部分页面情况
+
+### 首页（小程序+web）
+
+<img src="./gitimg/mphone.jpg" width="40%">
+<br/>
+<img src="./gitimg/webhome.png" width="40%">
+
+### 倒计时(web)
+
+<img src="./gitimg/webtime.png" width="40%">
+<br/>
+<img src="./gitimg/webtimeend.png" width="40%">

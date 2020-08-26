@@ -122,7 +122,6 @@ export default Vue.extend({
         this.$refs.music.stop()
       }
       GetTime.stopTime()
-      console.log(constant.status)
       this.changeicon(constant.status[statusvalue])// 放在GetTime.stopTime() 前面会导致小程序无法继续暂停
       const v = {
         dayInfo_id: this.item.dayInfo_id,
@@ -144,13 +143,15 @@ export default Vue.extend({
         const That = this
         const time = 2000
         this.toast = Toast.show({
-          title: '操作成功',
+          title: '暂停成功啦',
           time
         })
         // this.$set(this.toast,'time',time)// 无法触发
         setTimeout(() => {
           That.toast = Toast.hide()
         }, 2000)
+      }).catch((err)=> {
+        this.$HttpError.getError(err)
       })
       this.showbtnA = false
       // try {

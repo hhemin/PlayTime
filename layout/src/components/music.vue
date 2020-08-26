@@ -1,14 +1,13 @@
 <template>
   <div>
     <!-- <p @click="playcontrol">播放</p> -->
-   <span v-show="show">正在播放音乐中</span>
+   <span v-show="show" check-reduce>正在播放音乐中</span>
     <audio
       src="http://cdn.hmepay.cn/TimePlay/mp3/music.mp3"
       controls
       loop
       ref="audio"
       type="audio"
-      :action="audioAction"
       class="none"
       >
       您的浏览器不支持 audio标签。
@@ -20,7 +19,12 @@
 import Vue from 'vue'
 import moment from 'moment'
 
+import WM from '../static/js/wm'
 let setfn = ''
+// const Audiomp = WM.obj({
+//   mpobj: wx.createInnerAudioContext()
+// })
+
 
 export default Vue.extend({
   name: 'music',
@@ -28,9 +32,12 @@ export default Vue.extend({
     return {
       mp3: 'http://cdn.hmepay.cn/TimePlay/mp3/music.mp3',
       show: false,
-      audioAction: {
-        method: 'pause'
-      }
+      Audiomp: ''
+    }
+  },
+  created() {
+    if(process.env.isMiniprogram) {
+      this.Audiomp = wx.createInnerAudioContext()
     }
   },
   methods: {
@@ -40,29 +47,51 @@ export default Vue.extend({
       const min = Number(timeForm.format('mm'))
       const second = Number(timeForm.format('ss'))
       const v = ((hour * 60 * 60) + (min * 60) + second) * 1000
-      console.log('开始静')
-      // this.$refs.audio.src = 'http://cdn.hmepay.cn/TimePlay/mp3/music.mp3'
       const audio = this.$refs.audio
+      WM.fn({
+        webfn:() => {
+          // console.log('web开始静音播放')
+          audio.play()
+          audio.muted = true
+        },
+        mpfn:() => {
+          // mp 不用静音播放
+          this.Audiomp.src = this.mp3
+          this.Audiomp.obeyMuteSwitch = false // 即使用户打开了静音开关，也能继续发出声音
+        }
+      })
       const That = this
-      // audio.play()
-      this.audioAction.method = 'play'
-      audio.muted = true
-      // console.log(v)
       setfn = setTimeout(() => {
-        console.log('播放')
-        audio.currentTime = 0
+        // console.log('播放')
         That.show = true
-        // audio.play()
-        this.audioAction.method = 'play'
-        audio.muted = false
+        WM.fn({
+          webfn:() => {
+            audio.currentTime = 0
+            audio.muted = false
+            audio.play()
+          },
+          mpfn:() => {
+            // console.log('mp播放')
+            That.Audiomp.play()
+            That.Audiomp.onError((res) => {
+              console.log(res.errMsg)
+              console.log(res.errCode)
+            })
+          }
+        })
       }, v)
     },
     stop() {
       const audio = this.$refs.audio
       console.log('暂停')
-      // audio.pause()
-      this.audioAction.method = 'pause'
-      audio.muted = true
+      WM.fn({
+          webfn:() => {
+            audio.pause()
+          },
+          mpfn:() => {
+            this.Audiomp.stop()
+          }
+        })
       this.show = false
       clearTimeout(setfn)
       setfn = ''

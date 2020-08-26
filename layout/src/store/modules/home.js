@@ -1,9 +1,9 @@
 import axios from 'axios'
-import mpAdapter from 'axios-miniprogram-adapter'// 解决axios 在小程序能使用
-import {URL,TOKEN} from '../../../config/httpinfo'
+import {URL} from '../../../config/httpinfo'
 
-import { GetDayInfo } from '../../../api/dayinfo'
+// import { GetDayInfo } from '../../../api/dayinfo'
 import constant from '../../../config/constant'
+import HttpError from '../../../config/error'
 
 const state = {
   listData: [],
@@ -11,7 +11,7 @@ const state = {
 
 const actions = {
   async getListdata({ commit }) {
-    console.log('vuex home')
+    // console.log('vuex home')
     // *** 小程序不支持
     // const { data: { data } } = await GetDayInfo()
     // const table = []
@@ -26,10 +26,12 @@ const actions = {
     //   table.push(tableitem)
     // })
     // commit('setListData', table)
+    // axios.defaults.headers.common['Authorization'] =
     axios({
+      method: 'GET',
       url: `${URL}/api/dayinfo/list`,
       auth: {
-        username: TOKEN
+        username: localStorage.getItem('token')
       }
     }).then((res) => {
       console.log(res)
@@ -47,7 +49,8 @@ const actions = {
       })
       commit('setListData', table)
     }).catch((err) => {
-      console.log(err)
+      HttpError.getError(err.response.status)
+      console.log(err.response)
     })
   },
 }

@@ -1,6 +1,6 @@
 <template>
   <div class="editorbox">
-    <p class="center c-blue p10 box">今天计划时间有 {{time}} 小时</p>
+    <!-- <p class="center c-blue p10 box">今天计划时间有 {{time}} 小时</p> -->
     <div class="box" :model="formitem">
       <KCells>
       <KInput label="活动名称"

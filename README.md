@@ -1,6 +1,14 @@
 # PlayTime
-时间管理工具
+一个基于kbone开发的一个小demo，一个时间管理工具
 
+## 功能点
+* 登录
+* 注册
+* 个人中心
+* 添加计划
+* 编辑计划
+* 计划列表
+(具体的后期继续添加，能力有限，个人的刚刚第一个kbone框架demo项目)
 ## 技术
 koa + mysql + [kbone](https://wechat-miniprogram.github.io/kbone/docs/#%E4%BB%8B%E7%BB%8D) + [kbone-ui](https://wechat-miniprogram.github.io/kbone/docs/ui/intro/quickstart.html)
 

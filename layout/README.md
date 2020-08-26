@@ -48,6 +48,9 @@ npm run build:mp
 此模板 Web 端使用单入口，通过 vue-router + 动态 import 的方式来运行；小程序端则按照业务分拆成多个页面，同属一个业务的页面则通过 vue-router 来组织。
 
 ```
+├─ api                       // api，由于kbone在网络请求方面，这个拆分不能实现页面更新，能请求成功数据（个人发表，如果可以可以提issues哦！！）
+│  ├─ dayinfo.js             
+│  └─ users.js              
 ├─ build
 │  ├─ miniprogram.config.js  // mp-webpack-plugin 配置
 │  ├─ webpack.base.config.js // Web 端构建基础配置
@@ -78,10 +81,6 @@ npm run build:mp
 
 如果要使用 ts，则在 vue 的 script 标签上加上 `lang="ts"`，具体可参考 src/list/Index.vue。如果要使用 reduce-loader，就不能使用 ts，因为 ts 目前没有支持内联 loader。
 
-## License
-
-MIT 
-
 ## Safari 和 微信 浏览器音乐播放不能自动播放
 /components/music.vue 
 通过倒计时来控制播放
@@ -97,6 +96,11 @@ if (process.env.isMiniprogram) {
 同时网络axios请求要写在当vue文件里面，本人尝试通过vuex数据请求成功，小程序页面无法更新;axios封装也无法给小程序页面数据data更新（个人的的发现，不知道其他方法如何）
 2、异步组件问题
 由于kbone不支持异步组件开发，所以编辑页面原来是异步组件，现在拆分为多一个页面开发
+3、音频播放
+小程序只能采用官方的现有的 [InnerAudioContext](https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/InnerAudioContext.html)，组件在 components/music.vue 里面
+
+## 网络请求
+1、首页的列表数据是通过vuex来获取数据的
 
 
 

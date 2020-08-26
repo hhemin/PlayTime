@@ -31,7 +31,7 @@
 
 <script>
 /**
- * @name 运行状态计划
+ * @name 运行倒计时状态计划
  * */
 import Vue from 'vue'
 import axios from 'axios'

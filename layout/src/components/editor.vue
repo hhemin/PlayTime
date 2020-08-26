@@ -63,6 +63,9 @@
 </template>
 
 <script>
+/**
+ * @name 编辑组件（目前由于kbone不支持异步组件，放弃使用，改用为编辑页面 目录在../editor/Index.vu）
+ * */ 
 import Vue from 'vue'
 import { Tip, Dialog } from '../../config/util'
 import constant from '../../config/constant'

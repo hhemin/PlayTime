@@ -36,6 +36,9 @@
 </template>
 
 <script>
+/**
+ * @name 添加页面
+ * */
 import Vue from 'vue'
 import axios from 'axios'
 import mpAdapter from 'axios-miniprogram-adapter'// 解决axios 在小程序能使用

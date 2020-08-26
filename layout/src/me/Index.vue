@@ -26,6 +26,9 @@
 </template>
 
 <script>
+/*
+ * @name 个人中心
+ */
 import Footer from '../common/Footer.vue'
 
 export default {

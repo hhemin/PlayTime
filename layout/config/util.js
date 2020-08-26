@@ -1,3 +1,4 @@
+// Kbone-ui 提示的封装
 class Tip {
   constructor(text,type) {
     this.text = text || ''

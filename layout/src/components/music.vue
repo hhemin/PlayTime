@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- <p @click="playcontrol">播放</p> -->
-   <span v-show="show" check-reduce>正在播放音乐中</span>
+   <span v-show="show">正在播放音乐中</span>
     <audio
       src="http://cdn.hmepay.cn/TimePlay/mp3/music.mp3"
       controls

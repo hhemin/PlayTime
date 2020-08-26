@@ -1,4 +1,7 @@
 /* eslint-disable */
+/**
+ * @name 倒计时
+ */
 import moment from 'moment'
 class GetTime {
   constructor() {

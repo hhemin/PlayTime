@@ -11,8 +11,6 @@ class HttpError {
    localStorage.removeItem('token')
    if (process.env.isMiniprogram) {
       console.log('小程序要登录啦')
-    } else {
-      // window.location.href = '/login'
     }
   }
 }

@@ -17,6 +17,9 @@
 </template>
 
 <script>
+/**
+ * @name 注册页面
+ * */
 import axios from 'axios'
 import mpAdapter from 'axios-miniprogram-adapter'// 解决axios 在小程序能使用
 
@@ -62,8 +65,9 @@ export default {
           ...new Tip(data.msg || '错误', 'error').show()
         }
       }).catch((res) => {
+        console.log(res.response)
         this.tip = {
-          ...new Tip(res.data.msg || '错误', 'error').show()
+          ...new Tip(res.response.data.msg[0] || '错误', 'error').show()
         }
         console.log(res)
       })

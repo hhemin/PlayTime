@@ -930,11 +930,6 @@ koa-router@^9.1.0:
     methods "^1.1.2"
     path-to-regexp "^6.1.0"
 
-koa2-cors@^2.0.6:
-  version "2.0.6"
-  resolved "https://registry.npm.taobao.org/koa2-cors/download/koa2-cors-2.0.6.tgz#9ad23df3a0b9bb84530b46f5944f3fb576086554"
-  integrity sha1-mtI986C5u4RTC0b1lE8/tXYIZVQ=
-
 koa@^2.13.0:
   version "2.13.0"
   resolved "https://registry.npm.taobao.org/koa/download/koa-2.13.0.tgz#25217e05efd3358a7e5ddec00f0a380c9b71b501"

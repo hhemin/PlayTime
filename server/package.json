@@ -24,7 +24,6 @@
     "koa-convert": "^1.2.0",
     "koa-cors": "^0.0.16",
     "koa-router": "^9.1.0",
-    "koa2-cors": "^2.0.6",
     "lodash": "^4.17.19",
     "moment": "^2.27.0",
     "mysql": "^2.18.1",

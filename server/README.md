@@ -17,3 +17,22 @@
 
 否则会出现文件找不到问题
 
+## pm2 配置
+文件：server/core/init.js 路径问题和上面一样
+app.js 去除了app.listen(),写在bin/www里面了
+```
+终端sever文件使用就等于开始运行pm2
+yarn run prd
+```
+## 项目运行
+```
+方法1
+
+yarn run dev 
+
+方法2
+
+⚠️ 全局配置了安装了nodemon 可以使用这个方法运行
+yarn run nodemon
+```
+

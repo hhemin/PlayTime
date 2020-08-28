@@ -15,14 +15,14 @@ class InitManager {
   }
   static loadConfig(path = '') {
     // 配置config全局化
-    const configPath = path || process.cwd() + '/server/config/index.js'
+    const configPath = path || process.cwd() + '/config/index.js'
     const config = require(configPath);
     global.config = config;
   }
 
   static InitRouter() {
     // path config 备注 process.cwd()：是node自带的语法，能读取文件根目录
-    const apiDirectory = `${process.cwd()}/server/app/api`
+    const apiDirectory = `${process.cwd()}/app/api`
     requireDirectory(module, apiDirectory, { 
       visit: whenLoadModule 
     });

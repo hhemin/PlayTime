@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prd": "cross-env NODE_ENV=production pm2 start pm2.config.json",
+    "nodemon": "nodemon bin/www",
+    "dev": "cross-env NODE_ENV=dev ./node_modules/.bin/nodemon bin/www"
   },
   "keywords": [
     "koa",
@@ -18,8 +21,10 @@
     "jsonwebtoken": "^8.5.1",
     "koa": "^2.13.0",
     "koa-bodyparser": "^4.3.0",
+    "koa-convert": "^1.2.0",
     "koa-cors": "^0.0.16",
     "koa-router": "^9.1.0",
+    "koa2-cors": "^2.0.6",
     "lodash": "^4.17.19",
     "moment": "^2.27.0",
     "mysql": "^2.18.1",
@@ -27,5 +32,9 @@
     "require-directory": "^2.1.1",
     "sequelize": "^6.3.4",
     "validator": "^13.1.1"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.2",
+    "nodemon": "^2.0.4"
   }
 }

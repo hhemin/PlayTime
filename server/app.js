@@ -1,13 +1,15 @@
-const Koa = require('koa');
-const cors = require('koa-cors');
+const Koa = require('koa')
+const app = new Koa();
+const convert = require('koa-convert')
+const cors = require('koa2-cors');
 const parser = require('koa-bodyparser');
 const InitManager = require('./core/init');
 const catchError = require('./middlewares/exception'); // 捕获错误的中间件
 
-const app = new Koa();
-app.use(cors());
+app.use(cors())
 app.use(catchError);
 app.use(parser());
 InitManager.initCore(app);
 
-app.listen(3000,'0.0.0.0');
+// app.listen(3000,'0.0.0.0');
+module.exports = app

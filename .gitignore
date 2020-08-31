@@ -1,1 +1,3 @@
 node_modules
+server/logs/err-0.log
+server/logs/out-0.log

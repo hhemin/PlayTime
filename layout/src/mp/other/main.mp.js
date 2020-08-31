@@ -4,7 +4,6 @@ import { sync } from 'vuex-router-sync'
 import App from '../../App.vue'
 import store from '../../store'
 import List from '../../list/Index.vue'
-import Detail from '../../detail/Index.vue'
 
 Vue.use(Router)
 
@@ -14,10 +13,6 @@ const router = new Router({
     path: '/test/list/:id',
     name: 'List',
     component: List,
-  }, {
-    path: '/test/detail/:id',
-    name: 'Detail',
-    component: Detail,
   }],
 })
 

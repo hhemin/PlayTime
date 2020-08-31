@@ -4,7 +4,6 @@ import Router from 'vue-router'
 // const Menu = () => import(/* webpackChunkName: "Menu" */'@/components/menu/Index.vue')
 const Home = () => import(/* webpackChunkName: "Home" */'@/home/Index.vue')
 const List = () => import(/* webpackChunkName: "List" */'@/list/Index.vue')
-const Detail = () => import(/* webpackChunkName: "Detail" */'@/detail/Index.vue')
 const Add = () => import(/* webpackChunkName: "Add" */'@/add/Index.vue')
 const Day = () => import(/* webpackChunkName: "Day" */'@/day/Index.vue')
 const Login = () => import(/* webpackChunkName: "Login" */'@/login/Index.vue')
@@ -94,14 +93,6 @@ const router = new Router({
       path: '/test/list/:id',
       name: 'List',
       component: List,
-      meta: {
-        Login: true,
-        Active: true,
-      },
-    }, {
-      path: '/test/detail/:id',
-      name: 'Detail',
-      component: Detail,
       meta: {
         Login: true,
         Active: true,

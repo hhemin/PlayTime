@@ -260,7 +260,7 @@ export default Vue.extend({
           dayInfo_id: id
         },
         auth: {
-          username: TOKEN
+          username: TOKEN.getvalue()
         }
       }).then(() => {
         this.tip = {

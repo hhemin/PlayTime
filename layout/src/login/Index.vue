@@ -20,7 +20,7 @@ import mpAdapter from 'axios-miniprogram-adapter'// 解决axios 在小程序能�
 
 // import { GetToken } from '../../api/users'
 import { Tip } from '../../config/util'
-import { URL } from '../../config/httpinfo'
+import { URL,TOKEN } from '../../config/httpinfo'
 
 if (process.env.isMiniprogram) {
   axios.defaults.adapter = mpAdapter
@@ -70,10 +70,12 @@ export default {
       }).then((res) => {
         console.log(res)
         const { data } = res
+        TOKEN.setvalue(data.data)
+        // localStorage.setItem('token', data.data)
+        // console.log(localStorage.getItem('token'))
         this.tip = {
           ...new Tip(data.msg || '', 'success').show()
         }
-        localStorage.setItem('token', data.data)
         this.$router.push('/')
       }).catch((err) => {
         console.log(err)

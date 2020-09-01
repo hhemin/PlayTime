@@ -22,14 +22,23 @@ const router = new Router(
       path: '/',
       name: 'Home',
       component: Home,
+      meta: {
+        Login: true
+      }
     },{
       path: '/me',
       name: 'Me',
-      component: Me
+      component: Me,
+      meta: {
+        Login: true
+      }
     },{
       path: '/add',
       name: 'Add',
-      component: Add
+      component: Add,
+      meta: {
+        Login: true
+      }
     },{
       path: '/login',
       name: 'Login',
@@ -41,10 +50,25 @@ const router = new Router(
     },{
       path: '/editor',
       name: 'Editor',
-      component: Editor
+      component: Editor,
+      meta: {
+        Login: true
+      }
     }],
   }
 )
+
+router.beforeEach((to, from, next) => {
+  console.log(to)
+  if (to.meta.Login) {
+    if (!localStorage.getItem('token')) {
+      return router.push({
+        path: '/login'
+      })
+    }
+  }
+  return next()
+})
 
 
 export default function createApp() {

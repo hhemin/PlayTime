@@ -137,7 +137,7 @@ export default Vue.extend({
         url: `${URL}/api/dayinfo/updataStatus`,
         data: v,
         auth: {
-          username: TOKEN
+          username: TOKEN.getvalue()
         }
       }).then(() => {
         const That = this

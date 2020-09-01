@@ -89,7 +89,7 @@ export default Vue.extend({
     getMin() {
       console.log(this.min)
     },
-    putFrom() {
+    async putFrom() {
       const alltime = Number(this.min) + (Number(this.hour) * 60)
       if (this.name === '') {
         this.tip = {
@@ -126,7 +126,7 @@ export default Vue.extend({
           dayInfo_minute: this.min
         },
         auth: {
-          username: TOKEN
+          username: TOKEN.getvalue()
         }
       }).then((res) => {
         this.tip = {

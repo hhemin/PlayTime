@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {URL} from '../../../config/httpinfo'
+import {URL,TOKEN} from '../../../config/httpinfo'
 
 // import { GetDayInfo } from '../../../api/dayinfo'
 import constant from '../../../config/constant'
@@ -27,13 +27,15 @@ const actions = {
     // })
     // commit('setListData', table)
     // axios.defaults.headers.common['Authorization'] =
-    axios({
+    let m = {
       method: 'GET',
       url: `${URL}/api/dayinfo/list`,
       auth: {
-        username: localStorage.getItem('token')
+        username: TOKEN.getvalue()
       }
-    }).then((res) => {
+    }
+    console.log(m)
+    axios(m).then((res) => {
       console.log(res)
       const {data: {data}} = res
       const table = []

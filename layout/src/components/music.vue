@@ -3,7 +3,7 @@
     <!-- <p @click="playcontrol">播放</p> -->
    <span v-show="show">正在播放音乐中</span>
     <audio
-      src="http://cdn.hmepay.cn/TimePlay/mp3/music.mp3"
+      :src="mp3"
       controls
       loop
       ref="audio"
@@ -30,7 +30,7 @@ export default Vue.extend({
   name: 'music',
   data() {
     return {
-      mp3: 'http://cdn.hmepay.cn/TimePlay/mp3/music.mp3',
+      mp3: 'https://isure.stream.qqmusic.qq.com/C400001wPW1s0zNHod.m4a?guid=2903297462&vkey=0058F291BF259875293C913155CA426BAC2CE15D2C4B351D7D2E4BAEC2F767596ABE4332EF1AAAAF7579F59003B8A5D933BA595770138F7E&uin=2213&fromtag=66',
       show: false,
       Audiomp: ''
     }

@@ -190,7 +190,7 @@ export default Vue.extend({
         data: v,
         url: `${URL}/api/dayinfo/updatavalue`,
         auth: {
-          username: TOKEN
+          username: TOKEN.getvalue()
         }
       }).then((res) => {
         this.tip = {
@@ -246,7 +246,7 @@ export default Vue.extend({
           dayInfo_id: this.formitem.dayInfo_id
         },
         auth: {
-          username: TOKEN
+          username: TOKEN.getvalue()
         }
       }).then(() => {
         this.tip = {

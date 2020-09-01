@@ -2,7 +2,15 @@
   <div class="loginbox">
     <div class="formmian" :model="form">
       <div class="df inputitem">账号<input type="text" v-model="form.username"/></div>
+      <p
+       style="color:#2196F3;font-size:13px;transform:translateY(-5px);">
+       提示:账号要4~32位数英语+数字都可以
+      </p>
       <div class="df inputitem">密码<input type="password" v-model="form.password"/></div>
+      <p
+      style="color:#2196F3;font-size:13px;transform:translateY(-5px);">
+        提示:密码需要要6～32位数要英语+数字或符号结合
+      </p>
       <KButton type="primary"
       style="width:100%;max-width:360px;margin-top:20px"
       @click="onRegister">注册</KButton>
@@ -51,13 +59,13 @@ export default {
         url: `${URL}/api/users/register`,
         data: {
           username: this.form.username,
-          password: this.form.username
+          password: this.form.password
         }
       }).then((res) => {
         const { data } = res
         console.log(res)
-        if (res.code === 201) {
-          this.tip = {
+        if (res.status === 201) {
+          return this.tip = {
             ...new Tip(data.msg || '', 'success').show()
           }
         }
@@ -65,9 +73,15 @@ export default {
           ...new Tip(data.msg || '错误', 'error').show()
         }
       }).catch((res) => {
-        console.log(res.response)
+        if(!res.response) {
+          return this.tip = {
+            ...new Tip('出现未知错误！！！', 'error').show()
+          }
+        }
+        const data = res.response.data || '出现未知错误～'
+        const tipvalue = data.hasOwnProperty('msg') ? data.msg[0] : '出现未知错误~'
         this.tip = {
-          ...new Tip(res.response.data.msg[0] || '错误', 'error').show()
+          ...new Tip(tipvalue, 'error').show()
         }
         console.log(res)
       })

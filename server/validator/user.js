@@ -4,6 +4,9 @@ const {NotUser,RepeatUser} = require('../core/http-exception')
 class RegisterValidator extends LinValidator {
   constructor() {
     super();
+    this.username = [
+      new Rule('isLength', '昵称不符合长度规范', { min: 4, max: 32 })
+    ]
     this.password = [
       new Rule('isLength', '密码至少6个字符，最多32个字符', {
         min: 6,
@@ -14,9 +17,6 @@ class RegisterValidator extends LinValidator {
         '密码不符合规范',
         '^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]'
       )
-    ]
-    this.username = [
-      new Rule('isLength', '昵称不符合长度规范', { min: 4, max: 32 })
     ]
   }
   // // 自定义规则

@@ -21,14 +21,14 @@ router.get('/',async(ctx) => {
 // 用户注册
 router.post('/register',async (ctx,next) => {
   let {username,password} = ctx.request.body;
+  await new RegisterValidator().validateUser(username);// 检测是否存在
+  await new RegisterValidator().validate(ctx);
   const salt = bcrypt.genSaltSync(10);//随机生成salt
   var hash = bcrypt.hashSync(password, salt);//获取hash值
   let value = {
     username,
     password:hash
   }
-  await new RegisterValidator().validateUser(username);// 检测是否存在
-  await new RegisterValidator().validate(ctx);
   await User.add(value)
   successResponse({ctx,msg:"用户注册成功"})
 })

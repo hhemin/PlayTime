@@ -36,3 +36,8 @@ yarn run dev
 yarn run nodemon
 ```
 
+## server项目部署
+步骤1
+yarn 下载全部依赖
+步骤2
+yarn run prd （pm2 运行）

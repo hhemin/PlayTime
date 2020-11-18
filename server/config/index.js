@@ -11,4 +11,6 @@ module.exports = {
     secretKey: '@2Wd%e9Cd3s.P,&1!',// jsonwebtoken设置key令牌，要保密，别人可以通过这个破解密码
     expiresIn: 60 * 60 * 24 * 7,//  token设置有效时间 单位是分钟
   },
+  APPID: '',// wx的appid
+  SECRET: ''// wx的SECRET
 }

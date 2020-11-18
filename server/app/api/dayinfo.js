@@ -1,10 +1,24 @@
 const Router = require('koa-router');
 const {Auth} = require('../../middlewares/auth')
 const {DayInfo} = require('../model/dayinfo')
-const {successResponse} = require('../../lib/tool')
+const {successResponse} = require('../../lib/tool');
+const {WXGET} = require('../../core/wx.js');
 
 const router = new Router({
   prefix:'/api/dayinfo'
+})
+
+// wx获取token和id
+router.post('/wx/login',async(ctx,next) => {
+  let {code} = ctx.request.body;
+  await WXGET.getOpenId(code);
+  await WXGET.getAccessToken();
+  successResponse({ctx,msg:code})
+})
+// 获取信息推送
+router.post('/wx/pullinfo',async (ctx,next) => {
+  WXGET.sendMessage()
+  successResponse({ctx})
 })
 
 router.get('/', new Auth().m ,async (ctx,next) =>{
